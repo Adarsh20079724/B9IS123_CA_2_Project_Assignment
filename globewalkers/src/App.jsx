@@ -1,9 +1,7 @@
-import './App.css'
-
 function App() {
 
   return (
-      <div>
+      <div className='text-red-500'>
         Welcome to GlobeWalkers
       </div>
   )
