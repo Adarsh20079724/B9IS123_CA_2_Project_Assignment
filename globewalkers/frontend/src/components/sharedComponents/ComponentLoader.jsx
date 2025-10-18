@@ -6,4 +6,4 @@ const ComponentLoader = () => {
   )
 }
 
-export default ComponentLoader
+export default ComponentLoader;
