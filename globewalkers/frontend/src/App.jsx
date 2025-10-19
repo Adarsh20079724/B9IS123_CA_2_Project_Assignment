@@ -1,8 +1,10 @@
+import LandingPage from "./pages/LandingPage"
+
 function App() {
 
   return (
       <div className='text-red-500'>
-        Welcome to GlobeWalkers
+        <LandingPage />
       </div>
   )
 }
