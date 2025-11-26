@@ -80,6 +80,8 @@ app.get('/health_check', (req, res) => {
   res.json({ status: 'Server is up and running' });
 });
 
+
+// Starting the server
 const initiateServer = async () => {
 
   await connectMongoDB();
