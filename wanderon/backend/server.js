@@ -91,7 +91,9 @@ const initiateServer = async () => {
     console.log("========================================");
     console.log(`Server is up on port: ${PORT}`);
     console.log(`URL: http://localhost:${PORT}`);
-    console.log(`API: http://localhost:${PORT}/api/hello`);
+    console.log(`Server Message API: http://localhost:${PORT}/api/hello`);
+    console.log(`DB message API: http://localhost:${PORT}/api/hello_db`);
+    console.log(`Health Check API: http://localhost:${PORT}/health_check`);
     console.log("========================================");
   });
 };
