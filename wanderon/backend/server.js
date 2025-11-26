@@ -57,10 +57,33 @@ app.get("/api/hello", (req, res) => {
 });
 
 // Demo API Route from Database
+app.get("/api/hello_db", async (req, res) => {
+  try{
+    const message = await Message.findOne.sort({ createdAt: -1 })
 
+    if(!message) {
+      return res.status(404).json({ error: 'No message Found'})
+    }
+
+    res.json({
+      message: message.text,
+      timeStamp: message.createdAt
+    });
+  } catch(err) {
+    console.error('Error Fetching Message', err)
+    res.status(500).json({error: 'Server Error'})
+  }
+})
+
+// Health check route
+app.get('/health_check', (req, res) => {
+  res.json({ status: 'Server is up and running' });
+});
 
 const initiateServer = async () => {
+
   await connectMongoDB();
+  await insertDemoData();
 
   app.listen(PORT, () => {
     console.log("========================================");
