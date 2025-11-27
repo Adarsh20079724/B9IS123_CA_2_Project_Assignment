@@ -6,9 +6,14 @@ const App = () => {
   // Fetching Data from Server
   const fetchData = async () => {
     try {
-    const response  = await fetch("http://localhost:3000/api/hello");
-    const data = await response.json()
+    const response = await fetch("http://localhost:3000/api/hello");
 
+    if (!response.ok) {
+        throw new Error('Failed to fetch message');
+      }
+
+    const data = await response.json()
+    console.log("ServerData: ", data);
     setMessage(data)
     }
     catch(err) {
@@ -19,17 +24,20 @@ const App = () => {
   //Fetching DB Data
   const fetchDB_Data = async () => {
     try {
-    const response  = await fetch("http://localhost:3000/api/hello_db");
+    const response  = await fetch("http://localhost:3000/api/db");
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch message from DB');
+      }
+
     const data = await response.json()
     console.log("Data fron DB API: ", data)
-    setMessage(data)
+    setMessage(data.message)
     }
     catch(err) {
       setMessage(`Error is: ${err}`)
     }
   }
-
-  
 
   return (
       <div>
