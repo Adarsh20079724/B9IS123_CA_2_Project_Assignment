@@ -3,8 +3,7 @@ import { useState } from "react"
 const App = () => {
   const [message, setMessage] = useState("Message from frontend")
 
-  const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:3000';
-  
+  const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wanderon-project-backend.onrender.com'
   console.log('Backend API: ',API_URL)
   // Fetching Data from Server
   const fetchData = async () => {
@@ -27,7 +26,7 @@ const App = () => {
   //Fetching DB Data
   const fetchDB_Data = async () => {
     try {
-    const response  = await fetch("http://localhost:3000/api/db");
+    const response  = await fetch(`${API_URL}/api/db`);
 
     if (!response.ok) {
         throw new Error('Failed to fetch message from DB');
