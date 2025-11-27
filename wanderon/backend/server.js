@@ -1,11 +1,10 @@
 // This code is referred from official website of Express. To check if the connection is working fine.
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5050;
 
 // Middleware
 app.use(cors());
@@ -14,7 +13,7 @@ app.use(express.json());
 //Estabilishing MongoDb Connection
 const connectMongoDB = async () => {
   try {
-    const connectionObject = await mongoose.connect(
+    await mongoose.connect(
       process.env.MONGODB_DATABASE_URL
     );
     console.log("MongoDB Connected Successfully");
@@ -23,7 +22,7 @@ const connectMongoDB = async () => {
   }
 };
 
-//Demo Schema for testing Purpose
+// Demo Schema for testing Purpose
 const demoMessageSchema = new mongoose.Schema({
   text: {
     type: String,
@@ -52,38 +51,38 @@ const insertDemoData = async () => {
 };
 
 // Demo API Route from Server
-app.get("/api/hello", (req, res) => {
+app.get("/api/hello", async (req, res) => {
   res.json("This is code from backend");
 });
 
 // Demo API Route from Database
-app.get("/api/hello_db", async (req, res) => {
-  try{
-    const message = await Message.findOne.sort({ createdAt: -1 })
+app.get("/api/db", async (req, res) => {
+  try {
+    const message = await Message.findOne().sort({ createdAt: -1 });
 
-    if(!message) {
-      return res.status(404).json({ error: 'No message Found'})
+    if (!message) {
+      return res.status(404).json({ error: "No message Found" });
     }
 
     res.json({
       message: message.text,
-      timeStamp: message.createdAt
+      timeStamp: message.createdAt,
     });
-  } catch(err) {
-    console.error('Error Fetching Message', err)
-    res.status(500).json({error: 'Server Error'})
+  } catch (err) {
+    console.error("Error Fetching Message", err);
+    res.status(500).json({ error: "Server Error" });
   }
-})
-
-// Health check route
-app.get('/health_check', (req, res) => {
-  res.json({ status: 'Server is up and running' });
 });
 
+// Health check route
+app.get("/health_check", (req, res) => {
+  res.json({ status: "Server is up and running" });
+});
+
+const PORT = process.env.PORT || 3000;
 
 // Starting the server
 const initiateServer = async () => {
-
   await connectMongoDB();
   await insertDemoData();
 
@@ -92,7 +91,7 @@ const initiateServer = async () => {
     console.log(`Server is up on port: ${PORT}`);
     console.log(`URL: http://localhost:${PORT}`);
     console.log(`Server Message API: http://localhost:${PORT}/api/hello`);
-    console.log(`DB message API: http://localhost:${PORT}/api/hello_db`);
+    console.log(`DB message API: http://localhost:${PORT}/api/db`);
     console.log(`Health Check API: http://localhost:${PORT}/health_check`);
     console.log("========================================");
   });
