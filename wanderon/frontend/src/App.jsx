@@ -2,11 +2,14 @@ import { useState } from "react"
 
 const App = () => {
   const [message, setMessage] = useState("Message from frontend")
- 
+
+  const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:3000';
+  
+  console.log('Backend API: ',API_URL)
   // Fetching Data from Server
   const fetchData = async () => {
     try {
-    const response = await fetch("http://localhost:3000/api/hello");
+    const response = await fetch(`${API_URL}/api/hello`);
 
     if (!response.ok) {
         throw new Error('Failed to fetch message');
