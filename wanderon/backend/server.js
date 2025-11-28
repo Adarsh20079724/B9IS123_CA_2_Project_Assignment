@@ -1,5 +1,6 @@
 // This code is referred from official website of Express. To check if the connection is working fine.
 const express = require('express');
+const connectMongoDB = require('./config/databaseConfig');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -7,22 +8,21 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors(
-  
-));
+app.use(cors());
 app.use(express.json());
 
 //Estabilishing MongoDb Connection
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(
-      process.env.MONGODB_DATABASE_URL
-    );
-    console.log("MongoDB Connected Successfully");
-  } catch (err) {
-    console.error("MongoDB Connection Error:", err);
-  }
-};
+
+// const connectMongoDB = async () => {
+//   try {
+//    const conn =  await mongoose.connect(
+//       process.env.MONGODB_DATABASE_URL
+//     );
+//     console.log("MongoDB Connected Successfully");
+//   } catch (err) {
+//     console.error("MongoDB Connection Error:", err);
+//   }
+// };
 
 // Demo Schema for testing Purpose
 const demoMessageSchema = new mongoose.Schema({
