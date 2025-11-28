@@ -2,7 +2,7 @@
 const express = require('express');
 const connectMongoDB = require('./config/databaseConfig');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const Message = require('./models/message');
 require('dotenv').config();
 
 // Initialising the Express Application
@@ -11,20 +11,6 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Demo Schema for testing Purpose
-const demoMessageSchema = new mongoose.Schema({
-  text: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const Message = mongoose.model("Message", demoMessageSchema);
 
 //Demo initial data for testing
 
