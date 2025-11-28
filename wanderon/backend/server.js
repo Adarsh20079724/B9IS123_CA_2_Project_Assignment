@@ -5,24 +5,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+// Initialising the Express Application
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-//Estabilishing MongoDb Connection
-
-// const connectMongoDB = async () => {
-//   try {
-//    const conn =  await mongoose.connect(
-//       process.env.MONGODB_DATABASE_URL
-//     );
-//     console.log("MongoDB Connected Successfully");
-//   } catch (err) {
-//     console.error("MongoDB Connection Error:", err);
-//   }
-// };
 
 // Demo Schema for testing Purpose
 const demoMessageSchema = new mongoose.Schema({
@@ -91,7 +79,7 @@ const initiateServer = async () => {
   app.listen(PORT, () => {
     console.log("========================================");
     console.log(`Server is up on port: ${PORT}`);
-    console.log(`URL: http://localhost:${PORT}`);
+    console.log(`URL: http://localhost: ${PORT}`);
     console.log(`Server Message API: http://localhost:${PORT}/api/hello`);
     console.log(`DB message API: http://localhost:${PORT}/api/db`);
     console.log(`Health Check API: http://localhost:${PORT}/health_check`);
