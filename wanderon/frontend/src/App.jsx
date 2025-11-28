@@ -3,7 +3,12 @@ import { useState } from "react"
 const App = () => {
   const [message, setMessage] = useState("Message from frontend")
 
-  const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wanderon-project-backend.onrender.com'
+  // Production 
+  //const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wanderon-project-backend.onrender.com'
+
+  //
+  const API_URL = 'http://localhost:3000'
+
   console.log('Backend API: ',API_URL)
   // Fetching Data from Server
   const fetchData = async () => {
