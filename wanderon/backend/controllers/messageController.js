@@ -5,7 +5,7 @@ const { Message } = require('../models')
 const getDBMessage = async (req, res) => {
     try {
      const message = await Message.findOne().sort({ createdAt: -1 });
-     console.log("message from db:", message)
+    //  console.log("message from db:", message)
      // const message = await Message.findOne()
     //const message = await Message.getLatest()
 

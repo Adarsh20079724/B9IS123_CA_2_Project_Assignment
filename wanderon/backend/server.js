@@ -5,13 +5,16 @@ const corsMiddleware = require("./middleware/cors");
 const initialData = require("./seedDB/initialData");
 const routes = require("./routes");
 const config = require("./config/env")
-require("dotenv").config();
+const logger = require("./middleware/logger")
 
 // Initialising the Express Application
 const app = express();
 
 // Middleware
-app.use(corsMiddleware);
+  app.use(corsMiddleware);
+
+  // HTTP request logger for debugging purposes. 
+  app.use(logger) 
 
 // Body Parser: Parses JSON Requests
 app.use(express.json());
