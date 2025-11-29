@@ -1,11 +1,13 @@
-const Message = require('../models')
+const { Message } = require('../models')
 
 // Fetching Test Message from Database 
 
 const getDBMessage = async (req, res) => {
     try {
-    // const message = await Message.findOne().sort({ createdAt: -1 });
-    const message = await Message.getLatest();
+     const message = await Message.findOne().sort({ createdAt: -1 });
+     console.log("message from db:", message)
+     // const message = await Message.findOne()
+    //const message = await Message.getLatest()
 
     if (!message) {
       return res.status(404).json({ 
