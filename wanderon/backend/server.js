@@ -1,7 +1,7 @@
 // This code is referred from official website of Express. To check if the connection is working fine.
 const express = require("express");
 const connectMongoDB = require("./config/databaseConfig");
-const cors = require("cors");
+const corsMiddleware = require("./middleware/cors");
 const Message = require("./models/Message");
 const routes = require("./routes");
 require("dotenv").config();
@@ -10,7 +10,9 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(corsMiddleware);
+
+// Body Parser: Parses JSON Requests
 app.use(express.json());
 
 //Demo initial data for testing
