@@ -5,7 +5,6 @@ const messageSchema = new Schema({
   text: {
     type: String,
     required: true,
-    trim: true
   },
   createdAt: {
     type: Date,

@@ -39,7 +39,7 @@ const App = () => {
 
     const data = await response.json()
     console.log("Data fron DB API: ", data)
-    setMessage(data.message)
+    setMessage(data.data.message)
     }
     catch(err) {
       setMessage(`Error is: ${err}`)
