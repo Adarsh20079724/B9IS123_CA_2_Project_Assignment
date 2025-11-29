@@ -2,8 +2,9 @@
 const express = require("express");
 const connectMongoDB = require("./config/databaseConfig");
 const corsMiddleware = require("./middleware/cors");
-const Message = require("./models/Message");
+const initialData = require("./seedDB/initialData");
 const routes = require("./routes");
+const config = require("./config/env")
 require("dotenv").config();
 
 // Initialising the Express Application
@@ -15,40 +16,28 @@ app.use(corsMiddleware);
 // Body Parser: Parses JSON Requests
 app.use(express.json());
 
-//Demo initial data for testing
-
-const insertDemoData = async () => {
-  try {
-    const count = await Message.countDocuments();
-    if (count === 0) {
-      await Message.create({ text: "Hello!! from Database" });
-      console.log("Initial data inserted into Database");
-    }
-  } catch (err) {
-    console.error("Error in inserting data: ", err);
-  }
-};
-
-
 // Routes :
-
 app.use('/', routes)
-
-// Port Assign;
-const PORT = process.env.PORT || 3000;
 
 // Starting the server
 const initiateServer = async () => {
+  // initialising database connection
   await connectMongoDB();
-  await insertDemoData();
 
+  // Inserting initial Data into the database
+  await initialData();
+
+  // Assigning the Port;
+  const PORT = config.PORT || 3000;
+
+  // Start listening server at port 3000
   app.listen(PORT, () => {
     console.log("========================================");
     console.log(`Server is up on port: ${PORT}`);
     console.log(`URL: http://localhost:${PORT}`);
     console.log(`Server Message API: http://localhost:${PORT}/api/hello`);
     console.log(`DB message API: http://localhost:${PORT}/api/db`);
-    console.log(`Health Check API: http://localhost:${PORT}/health_check`);
+    console.log(`Health Check API: http://localhost:${PORT}/`);
     console.log("========================================");
   });
 };
