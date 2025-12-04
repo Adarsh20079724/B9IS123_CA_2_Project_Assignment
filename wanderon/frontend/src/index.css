@@ -15,6 +15,11 @@
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+/* -------------------------------------------------------------
+   BASE STYLES
+--------------------------------------------------------------*/
+
+/* Apply global font + text color across the app */
 
 @layer base {
   body {
@@ -22,43 +27,71 @@
   }
 }
 
+/* -------------------------------------------------------------
+   CUSTOM COMPONENT STYLES
+   - Buttons
+   - Card styling
+   - Input fields
+   - Labels
+--------------------------------------------------------------*/
+
 @layer components {
+
+  /* Primary button (dark theme) */
   .btn-primary {
     @apply bg-gray-900 text-white px-6 py-2.5 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md;
   }
   
+  /* Secondary button (outlined, light theme) */
   .btn-secondary {
     @apply bg-white text-gray-900 px-6 py-2.5 rounded-full font-medium border border-gray-300 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md;
   }
 
+  /* Card container styling */
   .card {
     @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300;
   }
 
+  /* Input fields with focus ring */
   .input-field {
     @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all;
   }
 
+  /* Label text */
   .label {
     @apply block text-sm font-medium text-gray-700 mb-2;
   }
 }
 
-/* Smooth scrolling */
+
+/* -------------------------------------------------------------
+   GLOBAL UI ENHANCEMENTS
+--------------------------------------------------------------*/
+
+/* Enable smooth scrolling for anchor links */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+
+/* -------------------------------------------------------------
+   CUSTOM SCROLLBAR (WebKit Browsers)
+--------------------------------------------------------------*/
+
+/* Scrollbar size */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
+/* Background of scrollbar track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
+/* Background of scrollbar track */
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
