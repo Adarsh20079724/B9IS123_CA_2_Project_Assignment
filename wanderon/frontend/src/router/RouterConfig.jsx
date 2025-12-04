@@ -10,6 +10,7 @@ import LandingPage from "../pages/LandingPage";
 import UserAuthPage from "../pages/UserAuthPage";
 import CreateTripPage from "../pages/CreateTripPage";
 import MyTripsPage from "../pages/MyTripsPage";
+import Navbar from "../components/layout/Navbar";
 
 /**
  * RouterConfig
@@ -22,6 +23,8 @@ const RouterConfig = () => {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        {/* Global Navigation Bar */}
+        <Navbar />
 
         {/* Route definitions */}
         <Routes>
