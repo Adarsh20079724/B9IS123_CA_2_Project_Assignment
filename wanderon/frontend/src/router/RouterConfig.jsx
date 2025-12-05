@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -40,7 +39,7 @@ const RouterConfig = () => {
 
           {/* Catch-all: This will redirect unknown routes to home. By this site won't crash or go into 404 error */}
           <Route path="*" element={<Navigate to="/" replace />} />
-          
+
         </Routes>
       </div>
     </Router>
