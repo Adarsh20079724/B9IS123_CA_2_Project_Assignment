@@ -12,6 +12,7 @@ import React from 'react';
 import { FiArrowRight, FiMapPin, FiClock } from 'react-icons/fi';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/layout/HeroSection';
+import NewsLetter from '../components/layout/NewsLetter';
 
 const LandingPage = () => {
   return (
@@ -107,27 +108,10 @@ const LandingPage = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-gray-200 py-20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Get Your Travel Inspiration Straight to Your Inbox
-          </h2>
-          <form className="flex flex-col sm:flex-row gap-4 mt-8">
-            <input
-              type="email"
-              placeholder="Email address"
-              className="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-gray-500"
-            />
-            <button type="button" className="btn-primary">
-              Subscribe
-            </button>
-          </form>
-          <p className="text-sm text-gray-600 mt-4">
-            Subscribe to our newsletter and get the latest travel tips delivered to your inbox
-          </p>
-        </div>
-      </section>
-
+      <>
+        <NewsLetter/>
+      </>
+          
       {/* Footer */}
       <>
         <Footer />
