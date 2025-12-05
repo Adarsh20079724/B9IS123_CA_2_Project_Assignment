@@ -8,7 +8,7 @@
 --------------------------------------------------------------*/
 
 import React from 'react'
-
+import { FiArrowRight } from 'react-icons/fi';
 const HeroSection = () => {
   return (
     <section className="relative bg-white overflow-hidden">
