@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------
    Form      : DayAccordionForm.jsx
-   Purpose   : This is a form used to create itinerary 
+   Purpose   : This is a form used to create days in itinerary 
    References: 
     1. ChatGPT Prompt          : Create a form which takes day details, Transportation details, Accommodation 
                                  Details and Activity details. All the details should be wrapped up in an accordion. 
