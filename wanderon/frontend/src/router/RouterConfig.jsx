@@ -11,6 +11,8 @@ import UserAuthPage from "../pages/UserAuthPage";
 import CreateTripPage from "../pages/CreateTripPage";
 import MyTripsPage from "../pages/MyTripsPage";
 import Navbar from "../components/layout/Navbar";
+import ContactPage from "../pages/ContactPage";
+import Destinations from "../pages/Destinations";
 
 /**
  * RouterConfig
@@ -33,10 +35,12 @@ const RouterConfig = () => {
           <Route path="/create" element={<CreateTripPage />} />
           <Route path="/create-trip/:id" element={<CreateTripPage />} />
           <Route path="/my-trips" element={<MyTripsPage />} />
+          <Route path="/contact-us" element={<ContactPage />} />
+          <Route path="/destinations" element={<Destinations />} />
 
           {/* Catch-all: This will redirect unknown routes to home. By this site won't crash or go into 404 error */}
           <Route path="*" element={<Navigate to="/" replace />} />
-
+          
         </Routes>
       </div>
     </Router>
