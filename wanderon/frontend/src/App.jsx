@@ -1,3 +1,4 @@
+import UserAuthPage from "./pages/UserAuthPage";
 import RouterConfig from "./router/RouterConfig";
 
 const App = () => {
@@ -5,6 +6,7 @@ const App = () => {
   return (
       <div>
         <RouterConfig />
+        {/* <UserAuthPage /> */}
       </div>
   )
 }
