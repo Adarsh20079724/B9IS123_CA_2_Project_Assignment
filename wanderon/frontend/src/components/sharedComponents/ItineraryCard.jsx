@@ -9,6 +9,7 @@
     2. Style Inspiration Image : https://i.pinimg.com/736x/cd/47/8a/cd478a4ec7c991711521c8806ca5ab16.jpg
     3. Tailwind CSS            : https://tailwindcss.com/docs/installation/using-vite
     4. React-icons             : https://react-icons.github.io/react-icons/
+    5. React-Router Docs.      : https://reactrouter.com/start/data/installation
 --------------------------------------------------------------*/
 
 import { FiPlus, FiEdit2, FiTrash2, FiMapPin, FiClock, FiEye } from 'react-icons/fi';
