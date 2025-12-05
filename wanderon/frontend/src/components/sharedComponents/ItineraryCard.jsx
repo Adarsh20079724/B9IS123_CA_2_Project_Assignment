@@ -12,8 +12,12 @@
 --------------------------------------------------------------*/
 
 import { FiPlus, FiEdit2, FiTrash2, FiMapPin, FiClock, FiEye } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const ItineraryCard = (props) => { 
+
+  const navigate = useNavigate();
+
   const trip = props.trip
 
   //console.log("trip: ",trip);
@@ -72,11 +76,15 @@ const ItineraryCard = (props) => {
     
                     {/* Actions (static buttons, no handlers) */}
                     <div className="flex space-x-2">
-                      <button className="flex-1 btn-secondary text-sm py-2 inline-flex items-center justify-center space-x-1">
+                      <button
+                        onClick={() => navigate(`/itinerary/${trip.id}`)} 
+                        className="flex-1 btn-secondary text-sm py-2 inline-flex items-center justify-center space-x-1">
                         <FiEye size={14} />
                         <span>View</span>
                       </button>
-                      <button className="flex-1 btn-primary text-sm py-2 inline-flex items-center justify-center space-x-1">
+                      <button 
+                        onClick={() => navigate(`/edit-trip/${trip.id}`)}
+                        className="flex-1 btn-primary text-sm py-2 inline-flex items-center justify-center space-x-1">
                         <FiEdit2 size={14} />
                         <span>Edit</span>
                       </button>
