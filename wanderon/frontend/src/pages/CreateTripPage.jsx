@@ -10,12 +10,17 @@
 import React from 'react'
 import BasicTripInfoForm from '../components/forms/BasicTripInfoForm'
 import DayAccordionForm from '../components/forms/DayAccordionForm'
+import LiveItineraryPreview from '../components/itinerary/LiveItineraryPreview'
+import Footer from '../components/layout/Footer'
 
 const CreateTripPage = () => {
   return (
     <div>
       <BasicTripInfoForm />
       <DayAccordionForm />
+      <LiveItineraryPreview />
+      <Footer />
+
     </div>
   )
 }
