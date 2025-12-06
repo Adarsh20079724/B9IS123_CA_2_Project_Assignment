@@ -7,8 +7,10 @@
     3. Tailwind CSS            : https://tailwindcss.com/docs/installation/using-vite
     4. React-icons             : https://react-icons.github.io/react-icons/
 
-   Tags      : 
-    @custom-edit-block         : Specifies that the code block has been manually modified as per project requirements.           
+   Tags : 
+    @custom-edit-block         : Specifies that the code block has been manually modified as per project requirements.
+        Start tag              : @custom-edit-block: == START ==
+        End tag                : @custom-edit-block: == END ==       
 --------------------------------------------------------------*/
 
 import { FiSearch, FiMenu } from 'react-icons/fi';
