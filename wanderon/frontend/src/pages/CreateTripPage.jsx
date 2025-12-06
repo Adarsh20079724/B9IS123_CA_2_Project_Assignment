@@ -9,6 +9,10 @@
                                  as shown in the image.
           Prompt 2             : I have added the container to show error. Match the css as shown
                                  in the image.
+          Prompt 3             : I am provining you the form I have created. Match the css as shown
+                                 in the image. Split the screen into two. Left side (40%) forms should
+                                 be shown. Right side (60%) Live Itinerary preview component should render
+                                 Provide the CSS for this layout.                    
 -------------------------------------------------------------- */
 
 import React from "react";
@@ -53,9 +57,49 @@ const CreateTripPage = () => {
         </div>
       </div>
 
-      <BasicTripInfoForm />
-      <DayAccordionForm />
-      <LiveItineraryPreview />
+      {/* Split Screen Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Left Panel - Form (40%) */}
+
+          <div className="lg:col-span-2 space-y-6">
+            {/* Basic Information */}
+            <BasicTripInfoForm />
+
+            {/* Days Form */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Days</h3>
+                <button className="btn-primary inline-flex items-center space-x-2 text-sm">
+                  <FiPlus />
+                  <span>Add Day</span>
+                </button>
+              </div>
+
+              <div className="card p-8 text-center">
+                <p className="text-gray-600 mb-4">No days added yet</p>
+                <button className="btn-primary">
+                  Add Your First Day
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <DayAccordionForm />
+              </div>
+
+              
+              
+            </div>
+          </div>
+
+          {/* Right Panel - Preview (60%) */}
+              <div className="lg:col-span-3 lg:sticky lg:top-32 lg:self-start">
+                <LiveItineraryPreview />
+              </div>
+              
+        </div>
+      </div>
+      {/* Footer */}
       <Footer />
     </div>
   );
