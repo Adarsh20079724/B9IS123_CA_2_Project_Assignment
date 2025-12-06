@@ -15,6 +15,7 @@
 import React from "react";
 import { FiSearch, FiMapPin, FiClock, FiStar } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
+import ItineraryCard from "../components/sharedComponents/ItineraryCard";
 
 const trips = [
   {
@@ -151,62 +152,7 @@ const DestinationsPage = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {trips.map((trip) => (
-                <article key={trip.id} className="card overflow-hidden flex flex-col">
-                  {/* Thumbnail */}
-                  <div className="h-44 w-full overflow-hidden">
-                    <img
-                      src={trip.thumbnail}
-                      alt={trip.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                        {trip.country}
-                      </p>
-                      <div className="inline-flex items-center space-x-1 text-xs text-gray-600">
-                        <FiStar className="text-green-500" size={14} />
-                        <span className="font-semibold">{trip.rating}</span>
-                        <span className="text-gray-400">
-                          ({trip.reviews})
-                        </span>
-                      </div>
-                    </div>
-
-                    <h3 className="font-semibold text-gray-900 mb-1 line-clamp-2">
-                      {trip.title}
-                    </h3>
-
-                    <div className="flex items-center text-xs text-gray-600 mb-2">
-                      <FiMapPin className="mr-1" size={12} />
-                      <span className="truncate">{trip.city}</span>
-                    </div>
-
-                    <div className="flex items-center text-xs text-gray-600 mb-3">
-                      <FiClock className="mr-1" size={12} />
-                      <span>{trip.duration}</span>
-                    </div>
-
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                      {trip.highlight}
-                    </p>
-
-                    <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
-                      <div>
-                        <p className="text-xs text-gray-500">Starting from</p>
-                        <p className="text-base font-bold text-gray-900">
-                          {trip.price}
-                        </p>
-                      </div>
-                      <button className="btn-primary text-sm px-4 py-2">
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </article>
+                <ItineraryCard key={trip.id} trip={trip}/>
               ))}
             </div>
           </section>

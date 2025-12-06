@@ -13,8 +13,12 @@ import { FiArrowRight, FiMapPin, FiClock } from 'react-icons/fi';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/layout/HeroSection';
 import NewsLetter from '../components/layout/NewsLetter';
+import { ExistingTrips } from '../data/dummyData';
+import ItineraryCard from '../components/sharedComponents/ItineraryCard';
 
 const LandingPage = () => {
+
+console.log("Existing trips: ",ExistingTrips);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -54,20 +58,10 @@ const LandingPage = () => {
         </div>
 
         {/* Static Destination Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="card h-64 overflow-hidden flex flex-col">
-              <div className="h-36 bg-gray-200" />
-              <div className="p-4 flex-1 flex flex-col">
-                <h3 className="font-semibold text-gray-900 mb-1">
-                  Destination {i}
-                </h3>
-                <p className="text-sm text-gray-600 flex-1">
-                  A beautiful place to explore and discover hidden gems.
-                </p>
-              </div>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ExistingTrips.map((trip) => (
+                <ItineraryCard key={trip.id} trip={trip}/>
+              ))}
         </div>
       </section>
 
