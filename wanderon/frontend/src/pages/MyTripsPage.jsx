@@ -12,7 +12,7 @@
 
 import React from 'react'
 import { FiPlus, FiEdit2, FiTrash2, FiMapPin, FiClock, FiEye } from 'react-icons/fi';
-import ItineraryCard from '../components/sharedComponents/ItineraryCard';
+import MyTripCard from '../components/sharedComponents/MyTripCard';
 
 const MyTripsPage = () => {
    const staticTrips = [
@@ -94,7 +94,7 @@ const MyTripsPage = () => {
         {/* Trips Grid (static sample cards) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staticTrips.map((trip) => (
-          <ItineraryCard key={trip.id} trip={trip} />
+          <MyTripCard key={trip.id} trip={trip} />
           ))}
         </div>
 

@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------
    Component : ItineraryCard.jsx
-   Purpose   : This is a reusable and multipurpose card for displaying itineraries in different pages according to need. This card is separated from MyTripsPage template code.
-
+   Purpose   : This is a reusable and multipurpose card for displaying itineraries in different pages according to need. 
+               This card is separated from MyTripsPage template code.
    References: 
     1. ChatGPT Prompt          : Create css as inspired from the provided image for the My Trips Page. 
                                  It should show some cards and has Published, drafts and all Iinerary options
