@@ -11,7 +11,7 @@ import CreateTripPage from "../pages/CreateTripPage";
 import MyTripsPage from "../pages/MyTripsPage";
 import Navbar from "../components/layout/Navbar";
 import ContactPage from "../pages/ContactPage";
-import Destinations from "../pages/Destinations";
+import DestinationsPage from "../pages/DestinationsPage";
 import ViewItineraryPage from "../pages/ViewItineraryPage";
 
 /**
@@ -36,7 +36,7 @@ const RouterConfig = () => {
           <Route path="/edit-trip/:id" element={<CreateTripPage />} />
           <Route path="/my-trips" element={<MyTripsPage />} />
           <Route path="/contact-us" element={<ContactPage />} />
-          <Route path="/destinations" element={<Destinations />} />
+          <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/itinerary" element={<ViewItineraryPage />} />
           <Route path="/itinerary/:id" element={<ViewItineraryPage />} />
 
