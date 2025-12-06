@@ -559,6 +559,61 @@ export const dummyItineraries = [
   }
 ];
 
+export const ExistingTrips = [
+  {
+    id: "trip-1",
+    title: "Scenic Iceland with Diamond Circle",
+    country: "Iceland",
+    city: "Reykjavík",
+    duration: "7 Days · 6 Nights",
+    price: "EUR 2,190.06",
+    rating: 4.7,
+    reviews: 64,
+    thumbnail:
+      "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80",
+    highlight: "Includes Golden Circle, whale watching & Diamond Circle tour.",
+  },
+  {
+    id: "trip-2",
+    title: "Classic Paris & Swiss Alps Escape",
+    country: "France · Switzerland",
+    city: "Paris, Interlaken",
+    duration: "8 Days · 7 Nights",
+    price: "EUR 1,849.00",
+    rating: 4.6,
+    reviews: 52,
+    thumbnail:
+      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+    highlight: "Eiffel Tower, Seine cruise & scenic Swiss mountain rail.",
+  },
+  {
+    id: "trip-3",
+    title: "Tokyo & Kyoto Cultural Discovery",
+    country: "Japan",
+    city: "Tokyo, Kyoto",
+    duration: "6 Days · 5 Nights",
+    price: "EUR 1,560.50",
+    rating: 4.8,
+    reviews: 89,
+    thumbnail:
+      "https://images.unsplash.com/photo-1519183071298-a2962be90b8e?auto=format&fit=crop&w=800&q=80",
+    highlight: "Temples, neon streets, local food tours & bullet train ride.",
+  },
+  {
+    id: "trip-4",
+    title: "Jaipur, Jodhpur & Jaisalmer Desert Trail",
+    country: "India",
+    city: "Jaipur, Jodhpur, Jaisalmer",
+    duration: "9 Days · 8 Nights",
+    price: "EUR 980.00",
+    rating: 4.5,
+    reviews: 41,
+    thumbnail:
+      "https://images.unsplash.com/photo-1515023115689-589c33041d3c?auto=format&fit=crop&w=800&q=80",
+    highlight: "Forts, bazaars & one night in luxury desert camp.",
+  },
+];
+
 //============================================================
 //               Helper functions to filter data
 //============================================================
@@ -609,6 +664,7 @@ export default {
   users: dummyUsers,
   destinations: dummyDestinations,
   itineraries: dummyItineraries,
+  trips: ExistingTrips,
   helpers: {
     getFeaturedDestinations,
     getPublicItineraries,
@@ -619,3 +675,4 @@ export default {
     mockDelay
   }
 };
+

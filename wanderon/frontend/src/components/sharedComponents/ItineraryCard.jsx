@@ -15,8 +15,11 @@
 --------------------------------------------------------------*/
 
 import { FiMapPin, FiClock, FiStar } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const ItineraryCard = (props) => {
+const navigate = useNavigate();
+
   const trip = props.trip;
   return (
     <article key={trip.id} className="card overflow-hidden flex flex-col">
@@ -65,7 +68,7 @@ const ItineraryCard = (props) => {
             <p className="text-xs text-gray-500">Starting from</p>
             <p className="text-base font-bold text-gray-900">{trip.price}</p>
           </div>
-          <button className="btn-primary text-sm px-4 py-2">
+          <button onClick={() => navigate(`/itinerary/${trip.id}`)} className="btn-primary text-sm px-4 py-2">
             View Details
           </button>
         </div>
