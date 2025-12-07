@@ -16,9 +16,35 @@
 import { FiSearch } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
 import ItineraryCard from "../components/sharedComponents/ItineraryCard";
-import { ExistingTrips } from "../data/dummyData";
+import { fetchAllTrips } from "../data/dummyData";
+import { useEffect, useState } from "react";
 
 const DestinationsPage = () => {
+   const [trips, setTrips] = useState([]);       // data from "API"
+  const [loading, setLoading] = useState(true); // loading state
+  const [error, setError] = useState("");       // simple error state
+
+  useEffect(() => {
+    const loadTrips = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        // Simulated API call with dummy data actual api will be updated here
+        const data = await fetchAllTrips();
+        setTrips(data || []);
+      } catch (err) {
+        console.error("Failed to load trips:", err);
+        setError("Failed to load trips. Please try again.");
+        setTrips([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTrips();          // run once on mount
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Page content */}
@@ -97,7 +123,7 @@ const DestinationsPage = () => {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {ExistingTrips.map((trip) => (
+              {trips.map((trip) => (
                 <ItineraryCard key={trip.id} trip={trip}/>
               ))}
             </div>
