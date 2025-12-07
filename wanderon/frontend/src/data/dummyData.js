@@ -652,11 +652,16 @@ export const getUserById = (id) => {
   return dummyUsers.find(u => u._id === id || u.id === id);
 };
 
+export async function fetchAllTrips() {
+  await mockDelay(400);          // simulate API latency
+  return ExistingTrips;          // this is your "API response"
+}
+
 //============================================================
 //                     Mock API Delay
 //============================================================
 
-export const mockDelay = (ms = 500) => {
+export const mockDelay = (ms = 400) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
@@ -675,6 +680,7 @@ export default {
     getUserItineraries,
     getItineraryById,
     getDestinationById,
+    fetchAllTrips,
     getUserById,
     mockDelay
   }
