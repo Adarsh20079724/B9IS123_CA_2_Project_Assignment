@@ -12,19 +12,18 @@
                                  with static data in it for testing purposes.
 -------------------------------------------------------------- */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiActivity,
   FiMapPin,
   FiHome,
-  FiClock,
   FiAirplay,
-  FiCoffee,
-  FiSun,
   FiStar,
 } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
 import TripDaySummary from "../components/itinerary/TripDaySummary";
+import { useParams } from "react-router-dom";
+import { getItineraryById, mockDelay } from "../data/dummyData";
 
 /**
  * Main Trip Summary page:
@@ -32,6 +31,14 @@ import TripDaySummary from "../components/itinerary/TripDaySummary";
  * - Right: Price / enquiry card (30%)
  */
 const ViewItineraryPage = () => {
+ 
+  const [itinerary, setItinerary] = useState({});
+  const {id} = useParams();
+  const [loading, setLoading] = useState(true);
+  
+  // console.log("id: ",id)
+
+
   // Static data shaped for the day component
   const days = [
     {
@@ -127,6 +134,20 @@ const ViewItineraryPage = () => {
       ],
     },
   ];
+
+  useEffect(() => {
+    if (id) fetchItinerary();
+    console.log("Itin: ",itinerary)
+  }, [id])
+
+  const fetchItinerary = async () => {
+    setLoading(true);
+      await mockDelay(300); // To test API like fetching scenario
+
+      const data = getItineraryById(id);
+      setItinerary(data);
+      setLoading(false);
+  }
 
   return (
     <>
