@@ -1,3 +1,16 @@
+/* ------------------------------------------------------------
+   Page      : TripDaySummary.jsx
+   Purpose   : Reusable component for itinerary view.
+   References: 
+    1. Style Inspiration Image : https://i.pinimg.com/736x/cd/47/8a/cd478a4ec7c991711521c8806ca5ab16.jpg
+    2. Tailwind CSS            : https://tailwindcss.com/docs/installation/using-vite
+    3. Website Inspiration     : https://www.thrillophilia.com/tours/scenic-iceland-with-diamond-circle
+                               : https://wanderon.in/
+    4. ChatGPT Prompt          : Create a Trip Summary Component which should match the CSS of the project. 
+                                 I have attached the image and link for reference. Create this component 
+                                 with static data in it for testing purposes.
+-------------------------------------------------------------- */
+
 import {
   FiActivity,
   FiMapPin,
@@ -6,7 +19,6 @@ import {
   FiAirplay,
   FiCoffee,
   FiSun,
-  FiStar,
 } from "react-icons/fi";
 
 const TripDaySummary = ({ dayLabel, stats, sections }) => {
