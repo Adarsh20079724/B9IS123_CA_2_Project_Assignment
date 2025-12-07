@@ -561,6 +561,7 @@ export const dummyItineraries = [
 
 export const ExistingTrips = [
   {
+    _id: "itin-1",
     id: "trip-1",
     title: "Scenic Iceland with Diamond Circle",
     country: "Iceland",
@@ -574,6 +575,7 @@ export const ExistingTrips = [
     highlight: "Includes Golden Circle, whale watching & Diamond Circle tour.",
   },
   {
+    _id: "itin-2",
     id: "trip-2",
     title: "Classic Paris & Swiss Alps Escape",
     country: "France · Switzerland",
@@ -587,6 +589,7 @@ export const ExistingTrips = [
     highlight: "Eiffel Tower, Seine cruise & scenic Swiss mountain rail.",
   },
   {
+    _id: "itin-3",
     id: "trip-3",
     title: "Tokyo & Kyoto Cultural Discovery",
     country: "Japan",
@@ -600,6 +603,7 @@ export const ExistingTrips = [
     highlight: "Temples, neon streets, local food tours & bullet train ride.",
   },
   {
+    _id: "itin-4",
     id: "trip-4",
     title: "Jaipur, Jodhpur & Jaisalmer Desert Trail",
     country: "India",
