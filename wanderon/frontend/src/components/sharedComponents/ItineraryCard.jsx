@@ -68,7 +68,7 @@ const navigate = useNavigate();
             <p className="text-xs text-gray-500">Starting from</p>
             <p className="text-base font-bold text-gray-900">{trip.price}</p>
           </div>
-          <button onClick={() => navigate(`/itinerary/${trip.id}`)} className="btn-primary text-sm px-4 py-2">
+          <button onClick={() => navigate(`/itinerary/${trip._id}`)} className="btn-primary text-sm px-4 py-2">
             View Details
           </button>
         </div>
