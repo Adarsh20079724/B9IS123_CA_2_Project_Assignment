@@ -42,104 +42,104 @@ const ViewItineraryPage = () => {
 
 
   // Static data shaped for the day component
-  const days = [
-    {
-      dayLabel: "Day 1 – Reykjavík",
-      stats: { activities: 1, hotels: 1, transfers: 1, flights: 0 },
-      sections: [
-        {
-          type: "transfer",
-          label: "Transfer:",
-          text: "Transfer from Keflavík International Airport to Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "hotel",
-          label: "Hotel:",
-          text: "Check-in at Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "note",
-          title: "Enjoy your time at leisure",
-        },
-      ],
-    },
-    {
-      dayLabel: "Day 2 – Reykjavík",
-      stats: { activities: 1, hotels: 0, transfers: 1, flights: 0 },
-      sections: [
-        {
-          type: "transfer",
-          label: "Transfer:",
-          text: "Transfer from Hotel Reykjavík Grand in Reykjavík to Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "activity",
-          label: "Activity:",
-          text: "Golden Circle Tour – Golden Circle Tour with transfers at 8 AM on a shared basis",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
-    {
-      dayLabel: "Day 3 – Reykjavík",
-      stats: { activities: 1, hotels: 0, transfers: 0, flights: 0 },
-      sections: [
-        {
-          type: "activity",
-          label: "Activity:",
-          text: "Reykjavík Whale Watching Tour – Whale watching experience",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
+  // const days = [
+  //   {
+  //     dayLabel: "Day 1 – Reykjavík",
+  //     stats: { activities: 1, hotels: 1, transfers: 1, flights: 0 },
+  //     sections: [
+  //       {
+  //         type: "transfer",
+  //         label: "Transfer:",
+  //         text: "Transfer from Keflavík International Airport to Hotel Reykjavík Grand in Reykjavík",
+  //       },
+  //       {
+  //         type: "hotel",
+  //         label: "Hotel:",
+  //         text: "Check-in at Hotel Reykjavík Grand in Reykjavík",
+  //       },
+  //       {
+  //         type: "note",
+  //         title: "Enjoy your time at leisure",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     dayLabel: "Day 2 – Reykjavík",
+  //     stats: { activities: 1, hotels: 0, transfers: 1, flights: 0 },
+  //     sections: [
+  //       {
+  //         type: "transfer",
+  //         label: "Transfer:",
+  //         text: "Transfer from Hotel Reykjavík Grand in Reykjavík to Hotel Reykjavík Grand in Reykjavík",
+  //       },
+  //       {
+  //         type: "activity",
+  //         label: "Activity:",
+  //         text: "Golden Circle Tour – Golden Circle Tour with transfers at 8 AM on a shared basis",
+  //       },
+  //       {
+  //         type: "meal",
+  //         lines: ["Breakfast at Hotel Reykjavík Grand"],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     dayLabel: "Day 3 – Reykjavík",
+  //     stats: { activities: 1, hotels: 0, transfers: 0, flights: 0 },
+  //     sections: [
+  //       {
+  //         type: "activity",
+  //         label: "Activity:",
+  //         text: "Reykjavík Whale Watching Tour – Whale watching experience",
+  //       },
+  //       {
+  //         type: "meal",
+  //         lines: ["Breakfast at Hotel Reykjavík Grand"],
+  //       },
+  //     ],
+  //   },
     
-    {
-      dayLabel: "Day 4 – Akureyri",
-      stats: { activities: 1, hotels: 1, transfers: 2, flights: 1 },
-      sections: [
-        {
-          type: "transfer",
-          label: "2 Transfers:",
-          lines: [
-            "Transfer from Hotel Reykjavík Grand in Reykjavík to Reykjavík Airport",
-            "Transfer from Akureyri Airport to Hotel Kjarnalundur, Akureyri",
-          ],
-        },
-        {
-          type: "flight",
-          title: "Flight – Reykjavík Airport to Akureyri Airport",
-          meta: {
-            start: "03:30 PM",
-            end: "04:15 PM",
-            duration: "45 Minutes",
-          },
-        },
-        {
-          type: "hotel",
-          label: "Hotel:",
-          text: "Check-in at Hotel Kjarnalundur, Akureyri",
-        },
-        {
-          type: "note",
-          title: "Enjoy your time at leisure",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
-  ];
+  //   {
+  //     dayLabel: "Day 4 – Akureyri",
+  //     stats: { activities: 1, hotels: 1, transfers: 2, flights: 1 },
+  //     sections: [
+  //       {
+  //         type: "transfer",
+  //         label: "2 Transfers:",
+  //         lines: [
+  //           "Transfer from Hotel Reykjavík Grand in Reykjavík to Reykjavík Airport",
+  //           "Transfer from Akureyri Airport to Hotel Kjarnalundur, Akureyri",
+  //         ],
+  //       },
+  //       {
+  //         type: "flight",
+  //         title: "Flight – Reykjavík Airport to Akureyri Airport",
+  //         meta: {
+  //           start: "03:30 PM",
+  //           end: "04:15 PM",
+  //           duration: "45 Minutes",
+  //         },
+  //       },
+  //       {
+  //         type: "hotel",
+  //         label: "Hotel:",
+  //         text: "Check-in at Hotel Kjarnalundur, Akureyri",
+  //       },
+  //       {
+  //         type: "note",
+  //         title: "Enjoy your time at leisure",
+  //       },
+  //       {
+  //         type: "meal",
+  //         lines: ["Breakfast at Hotel Reykjavík Grand"],
+  //       },
+  //     ],
+  //   },
+  // ];
 
     
   useEffect(() => {
-    
+
     if(!id) return; //(Error Fix) Additional guard step. Refs: [ChatGPT, Stackoverflow]
 
     const fetchItinerary =  async () => {
@@ -158,8 +158,9 @@ const ViewItineraryPage = () => {
   }, [id])
 
    console.log("Itin: ",itinerary)
+
   return (
-    <>
+   itinerary && <> 
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Two-column layout: 70% / 30% on large screens */}
@@ -170,25 +171,25 @@ const ViewItineraryPage = () => {
               {/* Header */}
               <div>
                 <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                  Trip Summary
+                  {`${itinerary.title}: Travel Summary`}
                 </h2>
 
                 <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
                   <span className="inline-flex items-center space-x-2">
                     <FiActivity className="text-gray-500" />
-                    <span>3 Activities</span>
+                    <span>{`${itinerary.statistics.totalActivities} Activities`}</span>
                   </span>
                   <span className="inline-flex items-center space-x-2">
                     <FiMapPin className="text-gray-500" />
-                    <span>6 Transfers</span>
+                    <span>{`${itinerary.statistics.totalTransfers} Transfers`}</span>
                   </span>
                   <span className="inline-flex items-center space-x-2">
                     <FiAirplay className="text-gray-500" />
-                    <span>1 Flight</span>
+                    <span>{`1 Flights`}</span>
                   </span>
                   <span className="inline-flex items-center space-x-2">
                     <FiHome className="text-gray-500" />
-                    <span>2 Hotels</span>
+                    <span>{`${itinerary.statistics.totalHotels} Hotels`}</span>
                   </span>
                 </div>
               </div>
@@ -198,8 +199,8 @@ const ViewItineraryPage = () => {
 
               {/* Days */}
               <div className="space-y-4">
-                {days.map((day, index) => (
-                  <React.Fragment key={day.dayLabel}>
+                {itinerary.days.map((day, index) => (
+                  <React.Fragment key={day._id}>
                     {index > 0 && (
                       <div
                         className="h-px bg-gray-100 my-1"
@@ -207,9 +208,7 @@ const ViewItineraryPage = () => {
                       />
                     )}
                     <TripDaySummary
-                      dayLabel={day.dayLabel}
-                      stats={day.stats}
-                      sections={day.sections}
+                      day={day}
                     />
                   </React.Fragment>
                 ))}
@@ -332,8 +331,8 @@ const ViewItineraryPage = () => {
       
     </div>
     <Footer />
-    </>
-  );
+    </> 
+  ); 
 };
 
 export default ViewItineraryPage;
