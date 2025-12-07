@@ -10,6 +10,7 @@
     4. ChatGPT Prompt          : Create a Trip Summary Component which should match the CSS of the project. 
                                  I have attached the image and link for reference. Create this component 
                                  with static data in it for testing purposes.
+    5. Stackoverflow.          : https://stackoverflow.com/questions/59864338/the-final-argument-passed-to-useeffect-changed-size-between-renders-except-i
 -------------------------------------------------------------- */
 
 import React, { useEffect, useState } from "react";
@@ -32,11 +33,12 @@ import { getItineraryById, mockDelay } from "../data/dummyData";
  */
 const ViewItineraryPage = () => {
  
-  const [itinerary, setItinerary] = useState({});
+  
   const {id} = useParams();
+  const [itinerary, setItinerary] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // console.log("id: ",id)
+//  console.log("id: ",id)
 
 
   // Static data shaped for the day component
@@ -135,20 +137,27 @@ const ViewItineraryPage = () => {
     },
   ];
 
+    
   useEffect(() => {
-    if (id) fetchItinerary();
-    console.log("Itin: ",itinerary)
-  }, [id])
+    
+    if(!id) return; //(Error Fix) Additional guard step. Refs: [ChatGPT, Stackoverflow]
 
-  const fetchItinerary = async () => {
+    const fetchItinerary =  async () => {
     setLoading(true);
-      await mockDelay(300); // To test API like fetching scenario
+     await mockDelay(300); // To test API like fetching scenario
 
       const data = getItineraryById(id);
+      console.log("Data: ",data)
       setItinerary(data);
       setLoading(false);
   }
 
+    fetchItinerary();
+    // console.log("Itin: ",itinerary)
+    //  console.log("id in: ",id)
+  }, [id])
+
+   console.log("Itin: ",itinerary)
   return (
     <>
     <div className="min-h-screen bg-gray-50 py-10">
