@@ -15,14 +15,62 @@
                                  Provide the CSS for this layout.                    
 -------------------------------------------------------------- */
 
-import React from "react";
+import React, { useState } from "react";
 import BasicTripInfoForm from "../components/forms/BasicTripInfoForm";
 import DayAccordionForm from "../components/forms/DayAccordionForm";
 import LiveItineraryPreview from "../components/itinerary/LiveItineraryPreview";
 import Footer from "../components/layout/Footer";
 import { FiPlus, FiTrash2, FiCopy, FiSave } from "react-icons/fi";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateTripPage = () => {
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [itinerary, setItinerary] = useState({
+    title: '',
+    destination: '',
+    startDate: '',
+    endDate: '',
+    summary: '',
+    thumbnail: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828',
+    days: []
+  });
+
+    const addDay = () => {
+    const newDay = {
+      dayNumber: itinerary.days.length + 1,
+      title: `Day ${itinerary.days.length + 1}`,
+      date: '',
+      transfer: {
+        mode: null,
+        from: '',
+        to: '',
+        departureTime: '',
+        arrivalTime: ''
+      },
+      accommodation: {
+        hotelName: '',
+        category: 'Standard',
+        checkIn: '',
+        checkOut: ''
+      },
+      activities: [],
+      autoDescription: ''
+    };
+
+    setItinerary({
+      ...itinerary,
+      days: [...itinerary.days, newDay]
+    });
+  };
+
+    const handleBasicInfoChange = (field, value) => {
+    setItinerary({ ...itinerary, [field]: value });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -38,22 +86,34 @@ const CreateTripPage = () => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="btn-secondary inline-flex items-center space-x-2">
+              <button
+                onClick={() => {}}
+                disabled={loading}
+                className="btn-secondary inline-flex items-center space-x-2"
+              >
                 <FiSave />
                 <span>Save Draft</span>
               </button>
-              <button className="btn-primary inline-flex items-center space-x-2">
+              <button
+                onClick={() => {}}
+                disabled={loading}
+                className="btn-primary inline-flex items-center space-x-2"
+              >
                 <FiSave />
                 <span>Publish</span>
               </button>
             </div>
           </div>
+
           {/* Error will be shown here */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+
+         {error && (<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
             <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
-              Error
+              {error}
             </div>
           </div>
+          )}
+
         </div>
       </div>
 
@@ -66,37 +126,45 @@ const CreateTripPage = () => {
             {/* Basic Information */}
             <BasicTripInfoForm />
 
-            {/* Days Form */}
+            {/* Days List */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold text-gray-900">Days</h3>
-                <button className="btn-primary inline-flex items-center space-x-2 text-sm">
+                <button 
+                  onClick={addDay}
+                  className="btn-primary inline-flex items-center space-x-2 text-sm">
                   <FiPlus />
                   <span>Add Day</span>
                 </button>
               </div>
 
-              <div className="card p-8 text-center">
-                <p className="text-gray-600 mb-4">No days added yet</p>
-                <button className="btn-primary">
-                  Add Your First Day
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                <DayAccordionForm />
-              </div>
-
-              
-              
+            {itinerary.days.length === 0 ? (
+                <div className="card p-8 text-center">
+                  <p className="text-gray-600 mb-4">No days added yet</p>
+                  <button onClick={addDay} className="btn-primary">
+                    Add Your First Day
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {itinerary.days.map((day, index) => (
+                    <DayAccordionForm
+                      key={index}
+                      day={day}
+                      dayIndex={index}
+                    />
+                  ))}
+                </div>
+              )}
+                 
             </div>
           </div>
 
           {/* Right Panel - Preview (60%) */}
               <div className="lg:col-span-3 lg:sticky lg:top-32 lg:self-start">
-                <LiveItineraryPreview />
+                <LiveItineraryPreview itinerary={itinerary}/>
               </div>
-              
+
         </div>
       </div>
       {/* Footer */}
