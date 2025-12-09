@@ -13,6 +13,7 @@
 import React, { useEffect, useState } from 'react'
 import { FiPlus} from 'react-icons/fi';
 import MyTripCard from '../components/sharedComponents/MyTripCard';
+import { mockDelay } from '../data/dummyData';
 
 const MyTripsPage = () => {
 
@@ -29,14 +30,14 @@ const MyTripsPage = () => {
    const fetchData = async () => {
     try {
       setLoader(true)
-      
+      await mockDelay(2000); // testing logic
       //Will be adding user fetch logic here
 
       //will be fetching itiniraries here
     
       //will be setting the trips once fetched
       
-      //setCreatedTrips()
+      setCreatedTrips(staticTrips);
 
     } catch (error) {
 
@@ -118,26 +119,51 @@ const MyTripsPage = () => {
 
         {/* Filters (static, no logic) */}
         <div className="flex space-x-3 mb-6">
-          <button className="px-4 py-2 rounded-full font-medium transition-colors bg-gray-900 text-white">
+          <button
+            onClick={() => setFilter('all')}
+            className={`px-4 py-2 rounded-full font-medium transition-colors ${
+              filter === 'all'
+                ? 'bg-gray-900 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
             All Trips
           </button>
-          <button className="px-4 py-2 rounded-full font-medium transition-colors bg-white text-gray-700 hover:bg-gray-100">
+          <button
+            onClick={() => setFilter('draft')}
+            className={`px-4 py-2 rounded-full font-medium transition-colors ${
+              filter === 'draft'
+                ? 'bg-gray-900 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
             Drafts
           </button>
-          <button className="px-4 py-2 rounded-full font-medium transition-colors bg-white text-gray-700 hover:bg-gray-100">
+          <button
+            onClick={() => setFilter('published')}
+            className={`px-4 py-2 rounded-full font-medium transition-colors ${
+              filter === 'published'
+                ? 'bg-gray-900 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
             Published
           </button>
         </div>
 
         {/* Trips Grid (static sample cards) */}
-
-        {loader ? (<div>loading...</div>
+       
+        {loader ? 
+        (<div>loading...</div>
         ) : createdTrips.length === 0 ? (
           <div> Create your first trip (Button will be added soon)</div>
         ) : (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staticTrips.map((trip) => (
-          <MyTripCard key={trip.id} trip={trip} />
+          <MyTripCard 
+            key={trip.id} 
+            trip={trip} 
+            filter={filter}/>
           ))}
         </div>
         )}
