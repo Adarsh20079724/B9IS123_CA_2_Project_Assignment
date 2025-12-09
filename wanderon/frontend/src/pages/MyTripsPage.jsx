@@ -130,11 +130,18 @@ const MyTripsPage = () => {
         </div>
 
         {/* Trips Grid (static sample cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        {loader ? (<div>loading...</div>
+        ) : createdTrips.length === 0 ? (
+          <div> Create your first trip (Button will be added soon)</div>
+        ) : (
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staticTrips.map((trip) => (
           <MyTripCard key={trip.id} trip={trip} />
           ))}
         </div>
+        )}
+
 
         {/* Optional static "no trips" state (commented out, design only) */}
         {/*
