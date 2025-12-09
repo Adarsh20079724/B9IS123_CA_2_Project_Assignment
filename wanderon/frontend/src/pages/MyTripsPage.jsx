@@ -20,12 +20,12 @@ const MyTripsPage = () => {
   //@custom-edit-block ==START==
    const [createdTrips, setCreatedTrips] = useState([])
    const [loader,setLoader] = useState(false);
-   const [filter, setFilter] = useState('All');
+   const [filter, setFilter] = useState('all');
 
 
    useEffect(() => {
     fetchData();
-   }, [])
+   }, [filter])
 
    const fetchData = async () => {
     try {
@@ -51,6 +51,11 @@ const MyTripsPage = () => {
     }
    }
 
+   const filteredTrips =  createdTrips.filter((trip) => {
+    if (filter === 'all') return true;
+    return trip.status == filter
+   }
+  )
   //@custom-edit-block ==END==
 
 
@@ -159,11 +164,11 @@ const MyTripsPage = () => {
           <div> Create your first trip (Button will be added soon)</div>
         ) : (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {staticTrips.map((trip) => (
+          {filteredTrips.map((trip) => (
           <MyTripCard 
             key={trip.id} 
             trip={trip} 
-            filter={filter}/>
+            />
           ))}
         </div>
         )}
