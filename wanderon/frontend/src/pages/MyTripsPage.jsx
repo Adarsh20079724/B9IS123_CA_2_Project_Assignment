@@ -10,11 +10,49 @@
     4. React-icons             : https://react-icons.github.io/react-icons/
 --------------------------------------------------------------*/
 
-import React from 'react'
-import { FiPlus, FiEdit2, FiTrash2, FiMapPin, FiClock, FiEye } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react'
+import { FiPlus} from 'react-icons/fi';
 import MyTripCard from '../components/sharedComponents/MyTripCard';
 
 const MyTripsPage = () => {
+
+  //@custom-edit-block ==START==
+   const [createdTrips, setCreatedTrips] = useState([])
+   const [loader,setLoader] = useState(false);
+   const [filter, setFilter] = useState('All');
+
+
+   useEffect(() => {
+    fetchData();
+   }, [])
+
+   const fetchData = async () => {
+    try {
+      setLoader(true)
+      
+      //Will be adding user fetch logic here
+
+      //will be fetching itiniraries here
+    
+      //will be setting the trips once fetched
+      
+      //setCreatedTrips()
+
+    } catch (error) {
+
+        console.error("Getting error in My Trip Page component")
+        console.error("Error in Fetching Data ",error)
+
+        setCreatedTrips([])
+
+    } finally {
+      setLoader(false)
+    }
+   }
+
+  //@custom-edit-block ==START==
+
+
    const staticTrips = [
     {
       id: 1,
