@@ -50,7 +50,7 @@ const MyTripsPage = () => {
     }
    }
 
-  //@custom-edit-block ==START==
+  //@custom-edit-block ==END==
 
 
    const staticTrips = [
