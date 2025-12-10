@@ -13,6 +13,7 @@
 
 import { 
   FiChevronDown, 
+  FiChevronUp,
   FiTrash2, 
   FiCopy, 
   FiPlus,
@@ -21,7 +22,31 @@ import {
   FiActivity
 } from 'react-icons/fi';
 
-const DayAccordionForm = () => {
+const DayAccordionForm = (props) => {
+
+const [isExpanded, setIsExpanded] = useState(false);
+
+const { day, dayIndex, onUpdate, onDelete, onDuplicate } = props;
+
+  const handleFieldChange = (field, value) => {
+    onUpdate({ ...day, [field]: value });
+  };
+
+  const handleTransferChange = (field, value) => {
+    onUpdate({
+      ...day,
+      transfer: { ...day.transfer, [field]: value }
+    });
+  };
+
+  const handleAccommodationChange = (field, value) => {
+    onUpdate({
+      ...day,
+      accommodation: { ...day.accommodation, [field]: value }
+    });
+  }; 
+
+
   return (
     <div className="card overflow-hidden">
 
@@ -31,9 +56,9 @@ const DayAccordionForm = () => {
 
           {/* Left Title Section */}
           <div className="flex items-center space-x-3">
-            <span className="font-semibold text-gray-900">Day 1</span>
+            <span className="font-semibold text-gray-900">Day {day.dayNumber}</span>
             <span className="text-gray-600">-</span>
-            <span className="text-gray-700">Sample Day Title</span>
+            <span className="text-gray-700">{day.title || 'Your Trip Title'}</span>
           </div>
 
           {/* Right Actions */}
@@ -41,14 +66,17 @@ const DayAccordionForm = () => {
 
             {/* Indicators */}
             <div className="flex items-center space-x-3 text-sm text-gray-600">
+              {/* Transfer Count */}
               <span className="flex items-center space-x-1">
                 <FiMapPin size={14} />
-                <span>1</span>
+                <span>1</span>  
               </span>
+              {/* Hotel Count */}
               <span className="flex items-center space-x-1">
                 <FiHome size={14} />
                 <span>1</span>
               </span>
+              {/* activityCount */}
               <span className="flex items-center space-x-1">
                 <FiActivity size={14} />
                 <span>3</span>
@@ -65,13 +93,14 @@ const DayAccordionForm = () => {
               </button>
 
               {/* Static Chevron */}
-              <FiChevronDown />
+              {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
             </div>
           </div>
         </div>
       </div>
 
       {/* Expanded Section (Always shown statically) */}
+      {isExpanded && (
       <div className="p-6 border-t border-gray-100 space-y-6 bg-gray-50">
 
         {/* Day Title & Date */}
@@ -79,16 +108,20 @@ const DayAccordionForm = () => {
           <div>
             <label className="label">Day Title</label>
             <input
-              type="text"
-              placeholder="e.g., Arrival in Paris"
-              className="input-field"
+                type="text"
+                value={day.title}
+                onChange={(e) => handleFieldChange('title', e.target.value)}
+                placeholder="e.g., Arrival in Paris"
+                className="input-field"
             />
           </div>
           <div>
             <label className="label">Date</label>
             <input
-              type="date"
-              className="input-field"
+                type="date"
+                value={day.date?.split('T')[0] || ''}
+                onChange={(e) => handleFieldChange('date', e.target.value)}
+                className="input-field"
             />
           </div>
         </div>
@@ -240,7 +273,8 @@ const DayAccordionForm = () => {
         </div>
 
       </div>
-    </div>
+      )}
+    </div>     
   );
 };
 
