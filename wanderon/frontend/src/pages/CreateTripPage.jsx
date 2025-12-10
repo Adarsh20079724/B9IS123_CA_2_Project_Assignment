@@ -20,7 +20,7 @@ import BasicTripInfoForm from "../components/forms/BasicTripInfoForm";
 import DayAccordionForm from "../components/forms/DayAccordionForm";
 import LiveItineraryPreview from "../components/itinerary/LiveItineraryPreview";
 import Footer from "../components/layout/Footer";
-import { FiPlus, FiTrash2, FiCopy, FiSave } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiCopy, FiSave, FiSend } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 import { getItineraryById, mockDelay } from "../data/dummyData";
 
@@ -67,7 +67,7 @@ const CreateTripPage = () => {
   };
 
     //@custom-edit-block ==START==
-  const handleBasicInfoChange = (field, value) => {
+  const handleFormChanges = (field, value) => {
     console.log("Field: ", field);
     console.log("Value: ", value);
     setItinerary({ ...itinerary, [field]: value });
@@ -174,7 +174,7 @@ const CreateTripPage = () => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                {"Create New Itinerary"}
+                {id ? 'Edit Itinerary' : 'Create New Itinerary'}
               </h1>
               <p className="text-sm text-gray-600 mt-1">
                 Build your perfect travel itinerary day by day
@@ -182,7 +182,7 @@ const CreateTripPage = () => {
             </div>
             <div className="flex space-x-3">
               <button
-                onClick={() => {}}
+                onClick={() => saveItinerary('draft')}
                 disabled={loading}
                 className="btn-secondary inline-flex items-center space-x-2"
               >
@@ -190,12 +190,12 @@ const CreateTripPage = () => {
                 <span>Save Draft</span>
               </button>
               <button
-                onClick={() => {}}
+                onClick={() => saveItinerary('published')}
                 disabled={loading}
                 className="btn-primary inline-flex items-center space-x-2"
               >
-                <FiSave />
-                <span>Publish</span>
+                <FiSend />
+                <span>Send to Agent</span>
               </button>
             </div>
           </div>
@@ -219,7 +219,10 @@ const CreateTripPage = () => {
 
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Information */}
-            <BasicTripInfoForm />
+            <BasicTripInfoForm 
+              itinerary={itinerary}
+              
+            />
 
             {/* Days List */}
             <div className="space-y-4">
