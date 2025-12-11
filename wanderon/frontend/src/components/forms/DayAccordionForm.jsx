@@ -47,6 +47,38 @@ const DayAccordionForm = (props) => {
     });
   };
 
+const addActivity = () => {
+    const newActivity = {
+      name: '',
+      time: '',
+      description: '',
+      category: 'Sightseeing'
+    };
+    onUpdate({
+      ...day,
+      activities: [...day.activities, newActivity]
+    });
+  };
+
+    const updateActivity = (activityIndex, field, value) => {
+    const newActivities = [...day.activities];
+    newActivities[activityIndex] = {
+      ...newActivities[activityIndex],
+      [field]: value
+    };
+    onUpdate({ ...day, activities: newActivities });
+  };
+
+    const deleteActivity = (activityIndex) => {
+    const newActivities = day.activities.filter((_, index) => index !== activityIndex);
+    onUpdate({ ...day, activities: newActivities });
+  };
+
+    const transferCount = day.transfer?.mode ? 1 : 0;   // optional chaining so that it will not result into an error but show undefined value
+  const hotelCount = day.accommodation?.hotelName ? 1 : 0;
+  const activityCount = day.activities?.length || 0;
+
+
   return (
     <div className="card overflow-hidden">
       {/* Header (Static) */}
@@ -268,7 +300,9 @@ const DayAccordionForm = (props) => {
               </h4>
 
               {/* Static Add Button */}
-              <button className="text-sm btn-primary inline-flex items-center space-x-1">
+              <button 
+                onClick={addActivity}
+                className="text-sm btn-primary inline-flex items-center space-x-1">
                 <FiPlus size={14} />
                 <span>Add Activity</span>
               </button>
@@ -284,7 +318,7 @@ const DayAccordionForm = (props) => {
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-sm font-medium text-gray-700">Activity {actIndex + 1}</span>
                       <button
-                        onClick={() => {}}
+                        onClick={() => deleteActivity(actIndex)}
                         className="text-red-600 hover:text-red-700"
                       >
                         <FiTrash2 size={14} />
@@ -297,7 +331,7 @@ const DayAccordionForm = (props) => {
                           <input
                             type="text"
                             value={activity.name}
-                            onChange={(e) => {}}
+                            onChange={(e) => updateActivity(actIndex, 'name', e.target.value)}
                             placeholder="e.g., Visit Eiffel Tower"
                             className="input-field text-sm"
                           />
@@ -307,7 +341,7 @@ const DayAccordionForm = (props) => {
                           <input
                             type="time"
                             value={activity.time}
-                            onChange={(e) => {}}
+                            onChange={(e) => updateActivity(actIndex, 'time', e.target.value)}
                             className="input-field text-sm"
                           />
                         </div>
@@ -316,7 +350,7 @@ const DayAccordionForm = (props) => {
                         <label className="label text-xs">Category</label>
                         <select
                           value={activity.category}
-                          onChange={(e) => {}}
+                          onChange={(e) => updateActivity(actIndex, 'category', e.target.value)}
                           className="input-field text-sm"
                         >
                           <option value="Sightseeing">Sightseeing</option>
@@ -332,7 +366,7 @@ const DayAccordionForm = (props) => {
                         <label className="label text-xs">Description</label>
                         <textarea
                           value={activity.description}
-                          onChange={(e) => {}}
+                          onChange={(e) => updateActivity(actIndex, 'description', e.target.value)}
                           placeholder="Activity details..."
                           rows="2"
                           className="input-field text-sm resize-none"
