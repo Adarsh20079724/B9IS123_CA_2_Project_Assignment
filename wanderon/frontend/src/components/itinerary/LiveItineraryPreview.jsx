@@ -25,7 +25,16 @@ const LiveItineraryPreview = (props) => {
 
   const itinerary = props.itinerary;
 
-  // Static sample data for design-only preview
+  const calculateStatistics = () => {
+    const stats = {
+      totalActivities: 0,
+      totalTransfers: 0,
+      totalHotels: 0,
+      transfersByMode: {},
+      activitiesByCategory: {},
+      hotelsByCategory: {}
+    }
+  };
 
 
   return (
@@ -33,34 +42,40 @@ const LiveItineraryPreview = (props) => {
       {/* Header Card */}
       <div className="card overflow-hidden">
         <div className="h-48 bg-linear-to-r from-blue-500 to-purple-600 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2108a"
-            alt="Trip thumbnail"
-            className="w-full h-full object-cover"
-          />
+          {itinerary.thumbnail && (
+            <img
+              src={itinerary.thumbnail || "https://images.unsplash.com/photo-1501117716987-c8e1ecb2108a"}
+              alt="Trip thumbnail"
+              className="w-full h-full object-cover"
+            />
+          )}
         </div>
+
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Sample European Escape
+            {itinerary.title || 'Untitled Itinerary'}
           </h2>
+
           <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600 mb-4">
             <span className="flex items-center space-x-1">
               <FiMapPin size={14} />
-              <span>Paris, France</span>
+              <span>{itinerary.destination || 'No destination'}</span>
             </span>
+
             <span className="flex items-center space-x-1">
               <FiCalendar size={14} />
-              <span>Aug 10, 2024 - Aug 15, 2024</span>
+              <span>Aug 10, 2024 - Aug 15, 2024: Will add this later</span> 
             </span>
+
             <span className="flex items-center space-x-1">
               <FiClock size={14} />
               <span>6 days</span>
             </span>
           </div>
-          <p className="text-gray-700">
-            A carefully curated itinerary combining iconic landmarks, hidden gems, cultural experiences,
-            and relaxing moments across one of Europe&apos;s most beautiful cities.
-          </p>
+
+          {itinerary.summary && (
+            <p className="text-gray-700">{itinerary.summary}</p>
+          )}
         </div>
       </div>
 
@@ -70,19 +85,19 @@ const LiveItineraryPreview = (props) => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-3xl font-bold text-blue-600">
-              {sampleStats.totalActivities}
+              {stats.totalActivities}
             </div>
             <div className="text-sm text-gray-600 mt-1">Activities</div>
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-3xl font-bold text-green-600">
-              {sampleStats.totalTransfers}
+              {stats.totalTransfers}
             </div>
             <div className="text-sm text-gray-600 mt-1">Transfers</div>
           </div>
           <div className="text-center p-4 bg-purple-50 rounded-lg">
             <div className="text-3xl font-bold text-purple-600">
-              {sampleStats.totalHotels}
+              {stats.totalHotels}
             </div>
             <div className="text-sm text-gray-600 mt-1">Hotels</div>
           </div>
