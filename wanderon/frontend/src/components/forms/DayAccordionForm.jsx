@@ -7,6 +7,7 @@
                                  Css should be inspired from the provided image. Keep the component static. Add 
                                  Icons from react-icons library.
                                 : Check the bracket error after transportation code block and fix it.
+                                : what is e.stopPropogation function. Add it in the delete and 
     2. Style Inspiration Image : https://i.pinimg.com/736x/cd/47/8a/cd478a4ec7c991711521c8806ca5ab16.jpg
     3. Tailwind CSS            : https://tailwindcss.com/docs/installation/using-vite
     4. React-icons             : https://react-icons.github.io/react-icons/
@@ -81,11 +82,15 @@ const addActivity = () => {
 
   return (
     <div className="card overflow-hidden">
-      {/* Header (Static) */}
-      <div className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+      {/* Header */}
+      <div 
+      onClick={() => setIsExpanded(!isExpanded)}
+      className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+
         <div className="flex justify-between items-center">
           {/* Left Title Section */}
           <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
             <span className="font-semibold text-gray-900">
               Day {day.dayNumber}
             </span>
@@ -93,46 +98,76 @@ const addActivity = () => {
             <span className="text-gray-700">
               {day.title || "Your Trip Title"}
             </span>
+            </div>
           </div>
 
           {/* Right Actions */}
           <div className="flex items-center space-x-4">
             {/* Indicators */}
             <div className="flex items-center space-x-3 text-sm text-gray-600">
+
               {/* Transfer Count */}
-              <span className="flex items-center space-x-1">
+              {transferCount > 0 && (
+                <span className="flex items-center space-x-1">
                 <FiMapPin size={14} />
-                <span>1</span>
+                <span>{transferCount}</span>
               </span>
+            )
+            }
+
               {/* Hotel Count */}
-              <span className="flex items-center space-x-1">
+              {hotelCount > 0 && (
+                <span className="flex items-center space-x-1">
                 <FiHome size={14} />
-                <span>1</span>
+                <span>{hotelCount}</span>
               </span>
+            )
+            }
+
               {/* activityCount */}
-              <span className="flex items-center space-x-1">
+              {activityCount > 0 && (<span className="flex items-center space-x-1">
                 <FiActivity size={14} />
-                <span>3</span>
-              </span>
+                <span>{activityCount}</span>
+              </span>)}
             </div>
 
-            {/* Buttons (Static visual only) */}
+            {/* Buttons */}
             <div className="flex items-center space-x-2">
-              <button className="p-1.5 hover:bg-gray-200 rounded transition-colors">
+
+              {/* Duplicate Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();   // Help taken from ChatGPT 
+                  onDuplicate();
+                }}
+                className="p-1.5 hover:bg-gray-200 rounded transition-colors"
+                title="Duplicate day"
+              >
                 <FiCopy size={16} />
               </button>
-              <button className="p-1.5 hover:bg-red-50 text-red-600 rounded transition-colors">
+
+              {/* Delete Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm('Are you sure you want to delete this day?')) {
+                    onDelete();
+                  }
+                }}
+                className="p-1.5 hover:bg-red-50 text-red-600 rounded transition-colors"
+                title="Delete day"
+              >
                 <FiTrash2 size={16} />
               </button>
 
-              {/* Static Chevron */}
+              {/* Chevron to expand accordio*/}
               {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Expanded Section (Always shown statically) */}
+       {/* Expanded Section (Always shown statically) */}
       {isExpanded && (
         <div className="p-6 border-t border-gray-100 space-y-6 bg-gray-50">
           {/* Day Title & Date */}
@@ -186,8 +221,10 @@ const addActivity = () => {
                 </select>
               </div>
 
-              {/* Static Transfer Fields */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* Transfer Fields */}
+              {day.transfer?.mode && (
+              <>
+                <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="label">From</label>
                   <input
@@ -210,9 +247,9 @@ const addActivity = () => {
                     className="input-field"
                   />
                 </div>
-              </div>
+                </div>
 
-              <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="label">Departure Time</label>
                   <input
@@ -231,7 +268,9 @@ const addActivity = () => {
                     className="input-field"
                   />
                 </div>
-              </div>
+                </div>
+              </>
+              )}
             </div>
           </div>
 
@@ -308,7 +347,7 @@ const addActivity = () => {
               </button>
             </div>
 
-            {/* Static placeholder activities */}
+            {/* Activities mapping*/}
             {day.activities?.length === 0 ? (
               <p className="text-gray-500 text-sm">No activities added yet</p>
             ) : (
