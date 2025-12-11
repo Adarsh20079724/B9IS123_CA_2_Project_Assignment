@@ -105,92 +105,116 @@ const LiveItineraryPreview = (props) => {
       </div>
 
       {/* Detailed Breakdowns */}
-      <div className="card p-6 space-y-6">
-        <h3 className="text-lg font-semibold text-gray-900">Detailed Breakdown</h3>
+      {(Object.keys(stats.transfersByMode).length > 0 || 
+        Object.keys(stats.activitiesByCategory).length > 0 || 
+        Object.keys(stats.hotelsByCategory).length > 0) && (
+        <div className="card p-6 space-y-6">
+          <h3 className="text-lg font-semibold text-gray-900">Detailed Breakdown</h3>
 
-        {/* Transfers Breakdown */}
-        <div>
-          <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
-            <FiNavigation size={16} />
-            <span>Transfers</span>
-          </h4>
-          <div className="space-y-2">
-            {Object.entries(sampleTransfersByMode).map(([mode, count]) => (
-              <div key={mode} className="flex justify-between items-center text-sm">
-                <span className="text-gray-700">{mode}</span>
-                <span className="font-medium text-gray-900">{count}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Activities Breakdown */}
-        <div>
-          <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
-            <FiActivity size={16} />
-            <span>Activities</span>
-          </h4>
-          <div className="space-y-2">
-            {Object.entries(sampleActivitiesByCategory).map(([category, count]) => (
-              <div key={category} className="flex justify-between items-center text-sm">
-                <span className="text-gray-700">{category}</span>
-                <span className="font-medium text-gray-900">{count}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Hotels Breakdown */}
-        <div>
-          <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
-            <FiHome size={16} />
-            <span>Accommodations</span>
-          </h4>
-          <div className="space-y-2">
-            {Object.entries(sampleHotelsByCategory).map(([category, count]) => (
-              <div key={category} className="flex justify-between items-center text-sm">
-                <span className="text-gray-700">{category}</span>
-                <span className="font-medium text-gray-900">{count} nights</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Days Preview */}
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Itinerary</h3>
-        <div className="space-y-4">
-          {sampleDays.map((day) => (
-            <div key={day.dayNumber} className="border-l-4 border-blue-500 pl-4 py-2">
-              <div className="flex items-center space-x-2 mb-2">
-                <span className="font-semibold text-gray-900">Day {day.dayNumber}</span>
-                <span className="text-gray-400">-</span>
-                <span className="text-gray-700">{day.title}</span>
-              </div>
-
-              <p className="text-sm text-gray-600 mb-2">
-                {day.date}
-              </p>
-
-              <div className="text-sm text-gray-700 mb-1">
-                <FiNavigation className="inline mr-1" size={12} />
-                {day.transfer.mode} from {day.transfer.from} to {day.transfer.to}
-              </div>
-
-              <div className="text-sm text-gray-700 mb-1">
-                <FiHome className="inline mr-1" size={12} />
-                {day.accommodation.hotelName} ({day.accommodation.category})
-              </div>
-
-              <div className="text-sm text-gray-700">
-                <FiActivity className="inline mr-1" size={12} />
-                {day.activitiesCount} {day.activitiesCount === 1 ? 'activity' : 'activities'} planned
+          {/* Transfers Breakdown */}
+          {Object.keys(stats.transfersByMode).length > 0 && (
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
+                <FiNavigation size={16} />
+                <span>Transfers</span>
+              </h4>
+              <div className="space-y-2">
+                {Object.entries(stats.transfersByMode).map(([mode, count]) => (
+                  <div key={mode} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-700">{mode}</span>
+                    <span className="font-medium text-gray-900">{count}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          )}
+
+          {/* Activities Breakdown */}
+          {Object.keys(stats.activitiesByCategory).length > 0 && (
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
+                <FiActivity size={16} />
+                <span>Activities</span>
+              </h4>
+              <div className="space-y-2">
+                {Object.entries(stats.activitiesByCategory).map(([category, count]) => (
+                  <div key={category} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-700">{category}</span>
+                    <span className="font-medium text-gray-900">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Hotels Breakdown */}
+          {Object.keys(stats.hotelsByCategory).length > 0 && (
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2 flex items-center space-x-2">
+                <FiHome size={16} />
+                <span>Accommodations</span>
+              </h4>
+              <div className="space-y-2">
+                {Object.entries(stats.hotelsByCategory).map(([category, count]) => (
+                  <div key={category} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-700">{category}</span>
+                    <span className="font-medium text-gray-900">{count} nights</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Days Preview */}
+      {itinerary.days && itinerary.days.length > 0 && (
+        <div className="card p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Itinerary</h3>
+          <div className="space-y-4">
+            {itinerary.days.map((day, index) => (
+              <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="font-semibold text-gray-900">Day {day.dayNumber}</span>
+                  {day.title && (
+                    <>
+                      <span className="text-gray-400">-</span>
+                      <span className="text-gray-700">{day.title}</span>
+                    </>
+                  )}
+                </div>
+
+                {day.date && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    {" Data to be added here"}
+                  </p>
+                )}
+
+                {day.transfer?.mode && (
+                  <div className="text-sm text-gray-700 mb-1">
+                    <FiNavigation className="inline mr-1" size={12} />
+                    {day.transfer.mode} from {day.transfer.from || '...'} to {day.transfer.to || '...'}
+                  </div>
+                )}
+
+                {day.accommodation?.hotelName && (
+                  <div className="text-sm text-gray-700 mb-1">
+                    <FiHome className="inline mr-1" size={12} />
+                    {day.accommodation.hotelName} ({day.accommodation.category})
+                  </div>
+                )}
+
+                {day.activities && day.activities.length > 0 && (
+                  <div className="text-sm text-gray-700">
+                    <FiActivity className="inline mr-1" size={12} />
+                    {day.activities.length} {day.activities.length === 1 ? 'activity' : 'activities'} planned
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
