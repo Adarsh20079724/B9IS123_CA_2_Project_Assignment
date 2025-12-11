@@ -21,80 +21,12 @@ import {
   FiNavigation
 } from 'react-icons/fi';
 
-const LiveItineraryPreview = () => {
+const LiveItineraryPreview = (props) => {
+
+  const itinerary = props.itinerary;
+
   // Static sample data for design-only preview
-  const sampleStats = {
-    totalActivities: 12,
-    totalTransfers: 4,
-    totalHotels: 3,
-  };
 
-  const sampleTransfersByMode = {
-    Flight: 2,
-    Train: 1,
-    Car: 1,
-  };
-
-  const sampleActivitiesByCategory = {
-    Sightseeing: 5,
-    Adventure: 3,
-    Dining: 2,
-    Cultural: 2,
-  };
-
-  const sampleHotelsByCategory = {
-    Standard: 1,
-    Deluxe: 1,
-    Luxury: 1,
-  };
-
-  const sampleDays = [
-    {
-      dayNumber: 1,
-      title: 'Arrival and City Stroll',
-      date: 'Aug 10, 2024',
-      transfer: {
-        mode: 'Flight',
-        from: 'Home City',
-        to: 'Paris',
-      },
-      accommodation: {
-        hotelName: 'Hotel Lumière',
-        category: 'Deluxe',
-      },
-      activitiesCount: 3,
-    },
-    {
-      dayNumber: 2,
-      title: 'Museums and River Cruise',
-      date: 'Aug 11, 2024',
-      transfer: {
-        mode: 'Metro',
-        from: 'Hotel Area',
-        to: 'City Center',
-      },
-      accommodation: {
-        hotelName: 'Hotel Lumière',
-        category: 'Deluxe',
-      },
-      activitiesCount: 4,
-    },
-    {
-      dayNumber: 3,
-      title: 'Day Trip to Versailles',
-      date: 'Aug 12, 2024',
-      transfer: {
-        mode: 'Train',
-        from: 'Paris',
-        to: 'Versailles',
-      },
-      accommodation: {
-        hotelName: 'Hotel Lumière',
-        category: 'Deluxe',
-      },
-      activitiesCount: 5,
-    },
-  ];
 
   return (
     <div className="space-y-6">
