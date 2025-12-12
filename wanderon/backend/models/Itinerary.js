@@ -8,7 +8,7 @@
     3. MongoDB        : 
     4. ChatGPT :
         Prompt        : Create a itinerary schema for this data sample. (Data Sample is present in ReadMe file)
-    .   ChatLink      : https://chatgpt.com/share/693894b9-d530-800d-bfb5-7649656b1185
+        ChatLink      : https://chatgpt.com/share/693894b9-d530-800d-bfb5-7649656b1185
 -------------------------------------------------------------- */
 
 // models/Itinerary.js
@@ -39,7 +39,10 @@ const ActivitySchema = new Schema(
       default: 'Other',
     },
   },
-  { _id: true } // keep separate _id for each activity
+  { 
+    _id: true,         // keep separate _id for each activity
+    timestamps: false
+} 
 );
 
 // Transfer sub-schema
