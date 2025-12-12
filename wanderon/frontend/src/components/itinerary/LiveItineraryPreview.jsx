@@ -20,6 +20,7 @@ import {
   FiCalendar,
   FiNavigation
 } from 'react-icons/fi';
+import { format } from 'date-fns';
 
 const LiveItineraryPreview = (props) => {
 
@@ -34,7 +35,39 @@ const LiveItineraryPreview = (props) => {
       activitiesByCategory: {},
       hotelsByCategory: {}
     }
-  };
+        itinerary.days?.forEach(day => {
+      if (day.transfer?.mode) {
+        stats.totalTransfers++;
+        stats.transfersByMode[day.transfer.mode] = (stats.transfersByMode[day.transfer.mode] || 0) + 1;
+      }
+
+      if (day.accommodation?.hotelName) {
+        stats.totalHotels++;
+        const category = day.accommodation.category || 'Standard';
+        stats.hotelsByCategory[category] = (stats.hotelsByCategory[category] || 0) + 1;
+      }
+
+      day.activities?.forEach(activity => {
+        stats.totalActivities++;
+        stats.activitiesByCategory[activity.category] = (stats.activitiesByCategory[activity.category] || 0) + 1;
+      });
+    });
+
+    return stats;
+  }
+
+  const stats = calculateStatistics();
+
+
+  // This function is totally taken from chat gpt.
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      return format(new Date(dateString), 'MMM dd, yyyy');
+    } catch {
+      return dateString;
+    }
+  }
 
 
   return (
