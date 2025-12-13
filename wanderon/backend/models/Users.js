@@ -7,9 +7,9 @@
                       : https://mongoosejs.com/docs/api/model.html#Model()
     3. MongoDB        : 
     4. ChatGPT:
-            Prompt    : 
-            ChatLink  : 
--------------------------------------------------------------- */\
+            Prompt    : Will be updated
+            ChatLink  : Will be updated
+-------------------------------------------------------------- */
 
 const mongoose = require('mongoose');
 
@@ -33,6 +33,10 @@ const UserSchema = new mongoose.Schema({
     enum: ['agent', 'traveller'],
     required: [true, 'User type is required']
   },
+  avatar: {
+    type: String,
+    default: '👤'
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -41,3 +45,7 @@ const UserSchema = new mongoose.Schema({
 {
   timestamps: true
 });
+
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;

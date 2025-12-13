@@ -35,7 +35,7 @@ const ActivitySchema = new Schema(
     },
     category: {
       type: String,
-      enum: ['Sightseeing', 'Adventure', 'Food', 'Shopping', 'Relaxation', 'Other'],
+      enum: ['Sightseeing', 'Adventure', 'Food', 'Shopping', 'Relaxation', 'Cultural', 'Dining', 'Other'],
       default: 'Other',
     },
   },

@@ -5,7 +5,8 @@ const corsMiddleware = require("./middleware/cors");
 const initialData = require("./seedDB/initialData");
 const routes = require("./routes");
 const config = require("./config/env")
-const logger = require("./middleware/logger")
+const logger = require("./middleware/logger");
+const seedItinUsers = require("./seedDB/seedSampleItinerary");
 
 // Initialising the Express Application
 const app = express();
@@ -29,6 +30,7 @@ const initiateServer = async () => {
 
   // Inserting initial Data into the database
   await initialData();
+  await seedItinUsers();
 
   // Assigning the Port;
   const PORT = config.PORT || 3000;
