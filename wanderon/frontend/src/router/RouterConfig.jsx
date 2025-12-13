@@ -6,13 +6,15 @@ import {
 } from "react-router-dom";
 
 import LandingPage from "../pages/LandingPage";
-import UserAuthPage from "../pages/UserAuthPage";
 import CreateTripPage from "../pages/CreateTripPage";
 import MyTripsPage from "../pages/MyTripsPage";
 import Navbar from "../components/layout/Navbar";
 import ContactPage from "../pages/ContactPage";
 import DestinationsPage from "../pages/DestinationsPage";
 import ViewItineraryPage from "../pages/ViewItineraryPage";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ProtectedRoute from "./ProtectedRoute";
 
 /**
  * RouterConfig
@@ -30,15 +32,63 @@ const RouterConfig = () => {
 
         {/* Route definitions */}
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<UserAuthPage />} />
-          <Route path="/create" element={<CreateTripPage />} />
-          <Route path="/edit-trip/:id" element={<CreateTripPage />} />
-          <Route path="/my-trips" element={<MyTripsPage />} />
-          <Route path="/contact-us" element={<ContactPage />} />
           <Route path="/destinations" element={<DestinationsPage />} />
-          <Route path="/itinerary" element={<ViewItineraryPage />} />
-          <Route path="/itinerary/:id" element={<ViewItineraryPage />} />
+          <Route path="/contact-us" element={<ContactPage />} />
+
+          {/* Login and Register */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Private Routes : This requires authentication */}
+          <Route 
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateTripPage />
+              </ProtectedRoute> } 
+            />
+
+          <Route 
+            path="/edit-trip/:id" 
+            element={
+              <ProtectedRoute>
+                <CreateTripPage />
+              </ProtectedRoute> } 
+            />
+
+          <Route 
+            path="/my-trips" 
+                element={
+              <ProtectedRoute>
+                <MyTripsPage />
+              </ProtectedRoute> }
+              / >
+
+          <Route 
+            path="/contact-us" 
+            element={
+              <ProtectedRoute>
+                <ContactPage />
+              </ProtectedRoute> } 
+            />
+         
+          <Route 
+            path="/itinerary" 
+            element={
+              <ProtectedRoute>
+                <ViewItineraryPage />
+              </ProtectedRoute> } 
+          />
+          
+          <Route 
+            path="/itinerary/:id" 
+            element={
+              <ProtectedRoute>
+                <ViewItineraryPage />
+              </ProtectedRoute> }  
+            />
 
           {/* Catch-all: This will redirect unknown routes to home. By this site won't crash or go into 404 error */}
           <Route path="*" element={<Navigate to="/" replace />} />

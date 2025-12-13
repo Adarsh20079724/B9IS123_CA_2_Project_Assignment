@@ -1,14 +1,14 @@
-import UserAuthPage from "./pages/UserAuthPage";
 import RouterConfig from "./router/RouterConfig";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
-
   return (
+    <AuthProvider>
       <div>
         <RouterConfig />
-        {/* <UserAuthPage /> */}
       </div>
-  )
-}
+    </AuthProvider>
+  );
+};
 
-export default App
+export default App;

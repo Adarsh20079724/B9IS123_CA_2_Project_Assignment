@@ -13,12 +13,24 @@
         End tag                : @custom-edit-block: == END ==       
 --------------------------------------------------------------*/
 
-import { FiSearch, FiMenu } from 'react-icons/fi';
+import { FiSearch, FiMenu, FiLogOut, FiUser } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
 
   const navigate = useNavigate();
+
+
+  // @custom-edit-block: == START ==
+
+  const { user, isAuthenticated, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  // @custom-edit-block: == END ==
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -69,9 +81,48 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
 
             {/* @custom-edit-block: == START == */}
-            <button onClick={() => navigate("/login")} className="btn-primary">
-              Sign In
-            </button>
+          {isAuthenticated ? (
+              // Logged in state
+              <div className="flex items-center space-x-4">
+                {/* User Info */}
+                <div className="flex items-center space-x-2 px-3 py-2 bg-gray-100 rounded-lg">
+                  <span className="text-2xl">{user?.avatar || '👤'}</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-gray-900">
+                      {user?.fullName}
+                    </span>
+                    <span className="text-xs text-gray-500 capitalize">
+                      {user?.userType}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Logout Button */}
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                >
+                  <FiLogOut size={18} />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            ) : (
+              // Logged out state
+              <div className="flex items-center space-x-3">
+                <button 
+                  onClick={() => navigate("/login")} 
+                  className="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium"
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => navigate("/register")} 
+                  className="btn-primary"
+                >
+                  Register
+                </button>
+              </div>
+            )}  
             {/* @custom-edit-block: == END == */}
           </div>
 
