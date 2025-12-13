@@ -1,3 +1,12 @@
+/* ------------------------------------------------------------
+   File      : 
+   Purpose   : 
+
+   References: 
+    1. ChatGPT Prompt          : 
+    2. File referred           : 
+--------------------------------------------------------------*/
+
 require('dotenv').config();
 
 module.exports = {
@@ -6,4 +15,9 @@ module.exports = {
   
   // Configuration for Database
   MONGODB_DATABASE_URL: process.env.MONGODB_DATABASE_URL,  
+
+  // Configuration JWT Token 
+  JWT_SECRET: process.env.JWT_SECRET_TOKEN,
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRY,
+
 };
