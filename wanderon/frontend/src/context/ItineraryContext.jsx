@@ -17,7 +17,7 @@
    ChatGPT :
         Prompt      : Create itinerary context skeleton
         Model file  : ItineraryContext.jsx
-        ChatLink    : —
+        ChatLink    : Will be updated
 -------------------------------------------------------------- */
 
 
