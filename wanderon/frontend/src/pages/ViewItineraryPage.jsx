@@ -13,18 +13,19 @@
     5. Stackoverflow.          : https://stackoverflow.com/questions/59864338/the-final-argument-passed-to-useeffect-changed-size-between-renders-except-i
 -------------------------------------------------------------- */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   FiActivity,
   FiMapPin,
   FiHome,
   FiAirplay,
   FiStar,
+  FiCalendar,
 } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
 import TripDaySummary from "../components/itinerary/TripDaySummary";
 import { useParams } from "react-router-dom";
-import { getItineraryById, mockDelay } from "../data/dummyData";
+import { useItinerary } from "../context/itineraryContext";
 
 /**
  * Main Trip Summary page:
@@ -32,309 +33,420 @@ import { getItineraryById, mockDelay } from "../data/dummyData";
  * - Right: Price / enquiry card (30%)
  */
 const ViewItineraryPage = () => {
- 
-  
-  const {id} = useParams();
-  const [itinerary, setItinerary] = useState(null);
-  const [loading, setLoading] = useState(true);
-  
-//  console.log("id: ",id)
+  const { id } = useParams();
 
+  // Use ItineraryContext instead of dummy data
+  const {
+    currentItinerary,
+    loading,
+    error,
+    fetchItineraryById,
+    clearCurrentItinerary,
+  } = useItinerary();
+  // @custom-edit-block: == END ==
 
-  // Static data shaped for the day component
-  const days = [
-    {
-      dayLabel: "Day 1 – Reykjavík",
-      stats: { activities: 1, hotels: 1, transfers: 1, flights: 0 },
-      sections: [
-        {
-          type: "transfer",
-          label: "Transfer:",
-          text: "Transfer from Keflavík International Airport to Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "hotel",
-          label: "Hotel:",
-          text: "Check-in at Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "note",
-          title: "Enjoy your time at leisure",
-        },
-      ],
-    },
-    {
-      dayLabel: "Day 2 – Reykjavík",
-      stats: { activities: 1, hotels: 0, transfers: 1, flights: 0 },
-      sections: [
-        {
-          type: "transfer",
-          label: "Transfer:",
-          text: "Transfer from Hotel Reykjavík Grand in Reykjavík to Hotel Reykjavík Grand in Reykjavík",
-        },
-        {
-          type: "activity",
-          label: "Activity:",
-          text: "Golden Circle Tour – Golden Circle Tour with transfers at 8 AM on a shared basis",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
-    {
-      dayLabel: "Day 3 – Reykjavík",
-      stats: { activities: 1, hotels: 0, transfers: 0, flights: 0 },
-      sections: [
-        {
-          type: "activity",
-          label: "Activity:",
-          text: "Reykjavík Whale Watching Tour – Whale watching experience",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
-    
-    {
-      dayLabel: "Day 4 – Akureyri",
-      stats: { activities: 1, hotels: 1, transfers: 2, flights: 1 },
-      sections: [
-        {
-          type: "transfer",
-          label: "2 Transfers:",
-          lines: [
-            "Transfer from Hotel Reykjavík Grand in Reykjavík to Reykjavík Airport",
-            "Transfer from Akureyri Airport to Hotel Kjarnalundur, Akureyri",
-          ],
-        },
-        {
-          type: "flight",
-          title: "Flight – Reykjavík Airport to Akureyri Airport",
-          meta: {
-            start: "03:30 PM",
-            end: "04:15 PM",
-            duration: "45 Minutes",
-          },
-        },
-        {
-          type: "hotel",
-          label: "Hotel:",
-          text: "Check-in at Hotel Kjarnalundur, Akureyri",
-        },
-        {
-          type: "note",
-          title: "Enjoy your time at leisure",
-        },
-        {
-          type: "meal",
-          lines: ["Breakfast at Hotel Reykjavík Grand"],
-        },
-      ],
-    },
-  ];
-
-    
+  // @custom-edit-block: == START ==
+  // Fetch itinerary when component mounts or ID changes
   useEffect(() => {
+    if (!id) return;
+    fetchItineraryById(id);
 
-    if(!id) return; //(Error Fix) Additional guard step. Refs: [ChatGPT, Stackoverflow]
+    // Cleanup: clear current itinerary when component unmounts
+    return () => {
+      clearCurrentItinerary();
+    };
+  }, [id]);
+  // @custom-edit-block: == END ==
 
-    const fetchItinerary =  async () => {
-    setLoading(true);
-     await mockDelay(300); // To test API like fetching scenario
+  // @custom-edit-block: == START ==
+  // Helper function to format price
+  const formatPrice = (price) => {
+    if (!price) return "Contact for pricing";
+    return `$${price.toLocaleString()}`;
+  };
 
-      const data = getItineraryById(id);
-      console.log("Data: ",data)
-      setItinerary(data);
-      setLoading(false);
+  // Helper function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // Calculate savings
+  const calculateSavings = (expected, final) => {
+    if (!expected || !final) return 0;
+    return expected - final;
+  };
+
+  // Convert MongoDB day structure to component format
+  const convertDaysToDisplayFormat = (days) => {
+    if (!days || days.length === 0) return [];
+
+    return days.map((day) => {
+      const sections = [];
+
+      // Add transfers
+      if (day.transfers && day.transfers.length > 0) {
+        if (day.transfers.length === 1) {
+          sections.push({
+            type: "transfer",
+            label: "Transfer:",
+            text: day.transfers[0].description || day.transfers[0].mode,
+          });
+        } else {
+          sections.push({
+            type: "transfer",
+            label: `${day.transfers.length} Transfers:`,
+            lines: day.transfers.map((t) => t.description || t.mode),
+          });
+        }
+      }
+
+      // Add flights
+      if (day.flights && day.flights.length > 0) {
+        day.flights.forEach((flight) => {
+          sections.push({
+            type: "flight",
+            title: `Flight – ${flight.from} to ${flight.to}`,
+            meta: {
+              start: flight.departureTime || "N/A",
+              end: flight.arrivalTime || "N/A",
+              duration: flight.duration || "N/A",
+            },
+          });
+        });
+      }
+
+      // Add hotels
+      if (day.hotels && day.hotels.length > 0) {
+        day.hotels.forEach((hotel) => {
+          sections.push({
+            type: "hotel",
+            label: "Hotel:",
+            text: `Check-in at ${hotel.name}${
+              hotel.location ? " in " + hotel.location : ""
+            }`,
+          });
+        });
+      }
+
+      // Add activities
+      if (day.activities && day.activities.length > 0) {
+        day.activities.forEach((activity) => {
+          sections.push({
+            type: "activity",
+            label: "Activity:",
+            text: `${activity.name}${
+              activity.time ? " at " + activity.time : ""
+            }${activity.description ? " – " + activity.description : ""}`,
+          });
+        });
+      }
+
+      // Add meals if any
+      if (day.meals && day.meals.length > 0) {
+        sections.push({
+          type: "meal",
+          lines: day.meals,
+        });
+      }
+
+      // Add note if no activities
+      if (
+        sections.length === 0 ||
+        (day.hotels && day.hotels.length > 0 && day.activities.length === 0)
+      ) {
+        sections.push({
+          type: "note",
+          title: "Enjoy your time at leisure",
+        });
+      }
+
+      return {
+        dayLabel: `Day ${day.dayNumber} – ${day.title}`,
+        stats: {
+          activities: day.activities?.length || 0,
+          hotels: day.hotels?.length || 0,
+          transfers: day.transfers?.length || 0,
+          flights: day.flights?.length || 0,
+        },
+        sections,
+      };
+    });
+  };
+  // @custom-edit-block: == END ==
+
+  // @custom-edit-block: == START ==
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading itinerary...</p>
+        </div>
+      </div>
+    );
   }
 
-    fetchItinerary();
-    // console.log("Itin: ",itinerary)
-    //  console.log("id in: ",id)
-  }, [id])
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg max-w-md">
+          <h3 className="font-semibold mb-2">Error Loading Itinerary</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
-   console.log("Itin: ",itinerary)
+  // Not found state
+  if (!currentItinerary) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Itinerary Not Found
+          </h2>
+          <p className="text-gray-600">
+            The itinerary you're looking for doesn't exist.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Convert days to display format
+  const displayDays = convertDaysToDisplayFormat(currentItinerary.days || []);
+  // @custom-edit-block: == END ==
 
   return (
-   itinerary && <> 
-    <div className="min-h-screen bg-gray-50 py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Two-column layout: 70% / 30% on large screens */}
-        <div className="grid grid-cols-1 lg:grid-cols-9 gap-8">
-          {/* LEFT: Trip Summary (≈70%) */}
-          <div className="lg:col-span-6">
-            <div className="card p-6 space-y-6">
-              {/* Header */}
-              <div>
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                  {`${itinerary.title}: Travel Summary`}
-                </h2>
-
-                <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
-                  <span className="inline-flex items-center space-x-2">
-                    <FiActivity className="text-gray-500" />
-                    <span>{`${itinerary.statistics.totalActivities} Activities`}</span>
-                  </span>
-                  <span className="inline-flex items-center space-x-2">
-                    <FiMapPin className="text-gray-500" />
-                    <span>{`${itinerary.statistics.totalTransfers} Transfers`}</span>
-                  </span>
-                  <span className="inline-flex items-center space-x-2">
-                    <FiAirplay className="text-gray-500" />
-                    <span>{`1 Flights`}</span>
-                  </span>
-                  <span className="inline-flex items-center space-x-2">
-                    <FiHome className="text-gray-500" />
-                    <span>{`${itinerary.statistics.totalHotels} Hotels`}</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-gray-200" />
-
-              {/* Days */}
-              <div className="space-y-4">
-                {days.map((day, index) => (
-                  <React.Fragment key={day.dayLabel}>
-                    {index > 0 && (
-                      <div
-                        className="h-px bg-gray-100 my-1"
-                        aria-hidden="true"
-                      />
-                    )}
-                    <TripDaySummary
-                      dayLabel={day.dayLabel}
-                      stats={day.stats}
-                      sections={day.sections}
-                    />
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: Price / Enquiry (≈30%) */}
-          <div className="lg:col-span-3">
-            <div className="card p-6 space-y-6">
-              {/* Price + rating + sale badge */}
-              <div className="flex items-start justify-between">
+    <>
+      <div className="min-h-screen bg-gray-50 py-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Two-column layout: 70% / 30% on large screens */}
+          <div className="grid grid-cols-1 lg:grid-cols-9 gap-8">
+            {/* LEFT: Trip Summary (≈70%) */}
+            <div className="lg:col-span-6">
+              <div className="card p-6 space-y-6">
+                {/* Header */}
                 <div>
-                  <div className="flex items-baseline space-x-2">
-                    <p className="text-2xl font-extrabold text-gray-900">
-                      EUR 2,190.06
-                    </p>
-                    <span className="text-sm text-gray-500">Per Adult</span>
-                  </div>
-                  <p className="mt-1 text-sm text-gray-400 line-through">
-                    EUR 2,912.78
-                  </p>
-                </div>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                    {`${currentItinerary.title}: Travel Summary`}
+                  </h2>
 
-                <div className="flex flex-col items-end space-y-2">
-                  <div className="inline-flex items-center space-x-1 text-sm text-green-600">
-                    <FiStar />
-                    <span className="font-semibold">4.5</span>
-                    <span className="text-gray-500 text-xs">(40)</span>
-                  </div>
-                  <div className="inline-flex items-center space-x-2">
-                    <span className="text-lg">🎅</span>
-                    <span className="px-3 py-1 rounded-full bg-red-600 text-white text-xs font-semibold tracking-wide">
-                      CHRISTMAS SALE!
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
+                    <span className="inline-flex items-center space-x-2">
+                      <FiActivity className="text-gray-500" />
+                      <span>
+                        {currentItinerary.statistics?.totalActivities || 0}{" "}
+                        Activities
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center space-x-2">
+                      <FiMapPin className="text-gray-500" />
+                      <span>
+                        {currentItinerary.statistics?.totalTransfers || 0}{" "}
+                        Transfers
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center space-x-2">
+                      <FiAirplay className="text-gray-500" />
+                      <span>
+                        {currentItinerary.statistics?.totalFlights || 0} Flights
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center space-x-2">
+                      <FiHome className="text-gray-500" />
+                      <span>
+                        {currentItinerary.statistics?.totalHotels || 0} Hotels
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center space-x-2">
+                      <FiCalendar className="text-gray-500" />
+                      <span>{currentItinerary.duration || 0} Days</span>
                     </span>
                   </div>
+                  {/* Trip Dates */}
+                  <div className="mt-3 text-sm text-gray-600">
+                    <span>{formatDate(currentItinerary.startDate)}</span>
+                    <span className="mx-2">→</span>
+                    <span>{formatDate(currentItinerary.endDate)}</span>
+                  </div>
                 </div>
+
+                {/* Divider */}
+                <div className="border-t border-gray-200" />
+
+                {/* Days */}
+                {displayDays.length > 0 ? (
+                  <div className="space-y-4">
+                    {displayDays.map((day, index) => (
+                      <React.Fragment key={day.dayLabel}>
+                        {index > 0 && (
+                          <div
+                            className="h-px bg-gray-100 my-1"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <TripDaySummary
+                          dayLabel={day.dayLabel}
+                          stats={day.stats}
+                          sections={day.sections}
+                        />
+                      </React.Fragment>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-10 text-gray-500">
+                    <p>No daily itinerary available yet.</p>
+                  </div>
+                )}
               </div>
+            </div>
 
-              <div className="border-t border-gray-200" />
-
-              {/* Primary CTA */}
-              <button className="w-full btn-primary py-3 text-base">
-                Send Enquiry
-              </button>
-
-              {/* Optional: small summary of package */}
-              <div className="pt-4 border-t border-gray-100 space-y-3">
-                <p className="text-sm font-semibold text-gray-900">
-                  Scenic Iceland With Diamond Circle
-                </p>
-                <div className="flex items-center flex-wrap gap-2 text-sm">
-                  <span className="font-bold text-gray-900">EUR 2,190.06</span>
-                  <span className="text-gray-400 line-through text-xs">
-                    EUR 2,912.78
-                  </span>
-                  <span className="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-semibold uppercase tracking-wide">
-                    Save EUR 722.72
-                  </span>
-                </div>
-              </div>
-
-              {/* Simple enquiry form (static) */}
-              <form className="mt-4 space-y-3">
-                <input
-                  type="text"
-                  placeholder="Full Name*"
-                  className="input-field text-sm"
-                />
-                <input
-                  type="email"
-                  placeholder="Email*"
-                  className="input-field text-sm"
-                />
-                <div className="grid grid-cols-3 gap-3">
+            {/* RIGHT: Price / Enquiry (≈30%) */}
+            <div className="lg:col-span-3">
+              <div className="card p-6 space-y-6">
+                {/* Price + rating + sale badge */}
+                <div className="flex items-start justify-between">
                   <div>
-                    <input
-                      type="text"
-                      defaultValue="+91"
-                      className="input-field text-sm"
-                    />
+                    <div className="flex items-baseline space-x-2">
+                      <p className="text-2xl font-extrabold text-gray-900">
+                        {formatPrice(currentItinerary.tripFinalCost || currentItinerary.negotiatedCost)}
+                      </p>
+                      <span className="text-sm text-gray-500">Per Adult</span>
+                    </div>
+                    {currentItinerary.expectedBudget && currentItinerary.tripFinalCost && 
+                     currentItinerary.expectedBudget > currentItinerary.tripFinalCost && (
+                      <p className="mt-1 text-sm text-gray-400 line-through">
+                        {formatPrice(currentItinerary.expectedBudget)}
+                      </p>
+                    )}
                   </div>
-                  <div className="col-span-2">
-                    <input
-                      type="text"
-                      placeholder="Your Phone*"
-                      className="input-field text-sm"
-                    />
+
+                  <div className="flex flex-col items-end space-y-2">
+                    <div className="inline-flex items-center space-x-1 text-sm text-green-600">
+                      <FiStar />
+                      <span className="font-semibold">4.5</span>
+                      <span className="text-gray-500 text-xs">(40)</span>
+                    </div>
+                    {currentItinerary.expectedBudget && currentItinerary.tripFinalCost && 
+                     calculateSavings(currentItinerary.expectedBudget, currentItinerary.tripFinalCost) > 0 && (
+                      <div className="inline-flex items-center space-x-2">
+                        <span className="text-lg">💰</span>
+                        <span className="px-3 py-1 rounded-full bg-green-600 text-white text-xs font-semibold tracking-wide">
+                          SAVE {formatPrice(calculateSavings(currentItinerary.expectedBudget, currentItinerary.tripFinalCost))}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="date"
-                    className="input-field text-sm"
-                    placeholder="Travel Date*"
-                  />
-                  <input
-                    type="number"
-                    className="input-field text-sm"
-                    placeholder="Traveller Count*"
-                  />
-                </div>
-                <textarea
-                  rows={3}
-                  className="input-field text-sm resize-none"
-                  placeholder="Message..."
-                />
-                <button
-                  type="button"
-                  className="w-full btn-primary py-3 text-base"
-                >
+
+                <div className="border-t border-gray-200" />
+
+                {/* Primary CTA */}
+                <button className="w-full btn-primary py-3 text-base">
                   Send Enquiry
                 </button>
-              </form>
+
+                {/* @custom-edit-block: == START == */}
+                {/* Optional: small summary of package */}
+                <div className="pt-4 border-t border-gray-100 space-y-3">
+                  <p className="text-sm font-semibold text-gray-900">
+                    {currentItinerary.title}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    {currentItinerary.destination}
+                  </p>
+                  {currentItinerary.summary && (
+                    <p className="text-sm text-gray-600">
+                      {currentItinerary.summary}
+                    </p>
+                  )}
+                  <div className="flex items-center flex-wrap gap-2 text-sm">
+                    <span className="font-bold text-gray-900">
+                      {formatPrice(currentItinerary.tripFinalCost || currentItinerary.negotiatedCost)}
+                    </span>
+                    {currentItinerary.expectedBudget && currentItinerary.tripFinalCost && 
+                     currentItinerary.expectedBudget > currentItinerary.tripFinalCost && (
+                      <>
+                        <span className="text-gray-400 line-through text-xs">
+                          {formatPrice(currentItinerary.expectedBudget)}
+                        </span>
+                        <span className="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-semibold uppercase tracking-wide">
+                          Save {formatPrice(calculateSavings(currentItinerary.expectedBudget, currentItinerary.tripFinalCost))}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                {/* @custom-edit-block: == END == */}
+
+                {/* Simple enquiry form (static) */}
+                <form className="mt-4 space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Full Name*"
+                    className="input-field text-sm"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email*"
+                    className="input-field text-sm"
+                  />
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <input
+                        type="text"
+                        defaultValue="+91"
+                        className="input-field text-sm"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <input
+                        type="text"
+                        placeholder="Your Phone*"
+                        className="input-field text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="date"
+                      className="input-field text-sm"
+                      placeholder="Travel Date*"
+                    />
+                    <input
+                      type="number"
+                      className="input-field text-sm"
+                      placeholder="Traveller Count*"
+                    />
+                  </div>
+                  <textarea
+                    rows={3}
+                    className="input-field text-sm resize-none"
+                    placeholder="Message..."
+                  />
+                  <button
+                    type="button"
+                    className="w-full btn-primary py-3 text-base"
+                  >
+                    Send Enquiry
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      
-    </div>
-    <Footer />
-    </> 
-  ); 
+      <Footer />
+    </>
+  );
 };
 
 export default ViewItineraryPage;
