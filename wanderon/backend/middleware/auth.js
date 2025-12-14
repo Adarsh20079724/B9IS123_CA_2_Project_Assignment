@@ -7,7 +7,7 @@
     2. File referred           : 
 --------------------------------------------------------------*/
 
-const { verifyToken } = require('../utils/jwtUtils');
+const { verifyToken } = require('../utils/jwsUtils');
 const { User } = require('../models');
 
 const authMiddleware = async (req, res, next) => {
