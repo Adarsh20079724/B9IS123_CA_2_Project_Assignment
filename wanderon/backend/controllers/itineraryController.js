@@ -139,14 +139,44 @@ const deleteItinerary = async (req, res) => {
 const updateDay = async (req, res) => {
     try {
 
+    const { id, dayId } = req.params;
+    const dayUpdates = req.body;
+    
+    const itinerary = await Itinerary.findById(id);
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }
+    
+    const day = itinerary.days.id(dayId);
+    
+    if (!day) {
+      return res.status(404).json({
+        success: false,
+        message: 'Day not found'
+      });
+    }
+    
+    // Update day fields
+    Object.keys(dayUpdates).forEach(key => {
+      day[key] = dayUpdates[key];
+    });
+    
+    await itinerary.save();
+    
     res.status(200).json({
       success: true,
+      message: 'Day updated successfully',
+      data: itinerary
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching user itineraries',
+      message: 'Error updating itinerary day',
       error: err.message
     });
   }
@@ -190,8 +220,26 @@ const createItinerary = async (req, res) => {
 const updateItinerary = async (req, res) => {
     try {
 
+    const { id } = req.params;
+    const updates = req.body;
+    
+    const itinerary = await Itinerary.findByIdAndUpdate(
+      id,
+      updates,
+      { new: true, runValidators: true }
+    ).populate('userId', 'fullName email avatar');
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }
+    
     res.status(200).json({
       success: true,
+      message: 'Itinerary updated successfully',
+      data: itinerary
     });
 
   } catch (err) {
@@ -211,8 +259,26 @@ const updateItinerary = async (req, res) => {
 const addDay = async (req, res) => {
     try {
 
+    const { id } = req.params;
+    const dayData = req.body;
+    
+    const itinerary = await Itinerary.findById(id);
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }
+    
+    // Add new day
+    itinerary.days.push(dayData);
+    await itinerary.save();
+    
     res.status(200).json({
       success: true,
+      message: 'Day added successfully',
+      data: itinerary
     });
 
   } catch (err) {
@@ -232,10 +298,36 @@ const addDay = async (req, res) => {
 const deleteDay = async (req, res) => {
     try {
 
+    const { id, dayId } = req.params;
+    
+    const itinerary = await Itinerary.findById(id);
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }
+    
+    const day = itinerary.days.id(dayId);
+    
+    if (!day) {
+      return res.status(404).json({
+        success: false,
+        message: 'Day not found'
+      });
+    }
+    
+    // Remove the day
+    day.deleteOne();
+    await itinerary.save();
+    
     res.status(200).json({
       success: true,
+      message: 'Day deleted successfully',
+      data: itinerary
     });
-
+    
   } catch (err) {
     res.status(500).json({
       success: false,
