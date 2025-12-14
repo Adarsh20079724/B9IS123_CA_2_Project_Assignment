@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const messageRoutes = require('./messageRoutes');
 const authRoutes = require('./authRoutes');
+const itineraryRoutes = require('./itineraryRoutes');
 
 /**
  * Routes Index
@@ -21,6 +22,7 @@ router.get('/', (req, res) => {
 // Mount message routes
 router.use('/api', messageRoutes);
 router.use('/api/auth', authRoutes);
+router.use('/api/itineraries', itineraryRoutes);
 
 //console.log("router from index:", router)
 
