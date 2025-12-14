@@ -1,12 +1,13 @@
 import RouterConfig from "./router/RouterConfig";
 import { AuthProvider } from "./context/AuthContext";
+import { ItineraryProvider } from "./context/itineraryContext";
 
 const App = () => {
   return (
     <AuthProvider>
-      <div>
+      <ItineraryProvider>
         <RouterConfig />
-      </div>
+      </ItineraryProvider> 
     </AuthProvider>
   );
 };

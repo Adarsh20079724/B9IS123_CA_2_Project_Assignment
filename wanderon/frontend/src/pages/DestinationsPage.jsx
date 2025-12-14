@@ -16,34 +16,48 @@
 import { FiSearch } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
 import ItineraryCard from "../components/sharedComponents/ItineraryCard";
-import { fetchAllTrips } from "../data/dummyData";
+import { useItinerary } from "../context/itineraryContext";
 import { useEffect, useState } from "react";
 
 const DestinationsPage = () => {
-   const [trips, setTrips] = useState([]);       // data from "API"
-  const [loading, setLoading] = useState(true); // loading state
-  const [error, setError] = useState("");       // simple error state
 
+  // @custom-edit-block: == START ==
+  // Use ItineraryContext instead of dummy data
+  const { itineraries, loading, error, fetchAllItineraries } = useItinerary();
+  // @custom-edit-block: == END ==
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredTrips, setFilteredTrips] = useState([]);
+
+  // @custom-edit-block: == START ==
+  // Fetch all itineraries on component mount
   useEffect(() => {
-    const loadTrips = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        // Simulated API call with dummy data actual api will be updated here
-        const data = await fetchAllTrips();
-        setTrips(data || []);
-      } catch (err) {
-        console.error("Failed to load trips:", err);
-        setError("Failed to load trips. Please try again.");
-        setTrips([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTrips();          // run once on mount
+    fetchAllItineraries();
   }, []);
+  // @custom-edit-block: == END ==
+
+  // @custom-edit-block: == START ==
+  // Filter itineraries based on search query and public status
+  useEffect(() => {
+    if (itineraries) {
+      const filtered = itineraries.filter(trip => {
+        // Only show published and public itineraries
+        const isPublic = trip.isPublic && trip.status === 'published';
+        
+        // Search filter
+        const matchesSearch = searchQuery === "" || 
+          trip.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          trip.destination?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          trip.summary?.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        return isPublic && matchesSearch;
+      });
+      
+      setFilteredTrips(filtered);
+    }
+  }, [itineraries, searchQuery]);
+  // @custom-edit-block: == END ==  
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -66,6 +80,8 @@ const DestinationsPage = () => {
                   type="text"
                   placeholder="Search destinations, trips or experiences..."
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-full focus:outline-none focus:border-gray-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               </div>
@@ -116,18 +132,41 @@ const DestinationsPage = () => {
             </div>
           </div>
 
-          {/* Trips Grid */}
-          <section>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Available Trips
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {trips.map((trip) => (
-                <ItineraryCard key={trip.id} trip={trip}/>
-              ))}
+          {/* Loading State */}
+          {loading && (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
-          </section>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+              {error}
+            </div>
+          )}          
+
+          {/* Trips Grid */}
+        {!loading && !error && (
+            <section>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Available Trips ({filteredTrips.length})
+              </h2>
+
+              {filteredTrips.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-gray-500 text-lg">No trips found.</p>
+                  <p className="text-gray-400 mt-2">Try adjusting your search or filters.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredTrips.map((trip) => (
+                    <ItineraryCard key={trip._id} trip={trip} />
+                  ))}
+                </div>
+              )}
+            </section>
+          )}          
         </div>
       </main>
 
