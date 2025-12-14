@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const messageRoutes = require('./messageRoutes');
+const authRoutes = require('./authRoutes');
 
 /**
  * Routes Index
@@ -19,6 +20,8 @@ router.get('/', (req, res) => {
 
 // Mount message routes
 router.use('/api', messageRoutes);
+router.use('/api/auth', authRoutes);
+
 //console.log("router from index:", router)
 
 module.exports = router;
