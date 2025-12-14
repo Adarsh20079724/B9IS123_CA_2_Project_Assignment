@@ -18,6 +18,6 @@ module.exports = {
 
   // Configuration JWT Token 
   JWT_SECRET: process.env.JWT_SECRET_TOKEN,
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRY,
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRY
 
 };
