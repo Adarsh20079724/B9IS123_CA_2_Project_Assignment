@@ -105,14 +105,27 @@ const getItineraryByUser = async (req, res) => {
 const deleteItinerary = async (req, res) => {
     try {
 
+    const { id } = req.params;
+    
+    const itinerary = await Itinerary.findByIdAndDelete(id);
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }      
+
     res.status(200).json({
       success: true,
+      message: 'Itinerary deleted successfully',
+      data: itinerary      
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching user itineraries',
+      message: 'Error deleting itinerary',
       error: err.message
     });
   }
@@ -147,14 +160,23 @@ const updateDay = async (req, res) => {
 const createItinerary = async (req, res) => {
     try {
 
-    res.status(200).json({
+    const itineraryData = req.body;
+    
+    const newItinerary = await Itinerary.create(itineraryData);
+    
+    const populatedItinerary = await Itinerary.findById(newItinerary._id)
+      .populate('userId', 'fullName email avatar');
+
+    res.status(201).json({
       success: true,
+      message: 'Itinerary created successfully',
+      data: populatedItinerary
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching user itineraries',
+      message: 'Error in creating a new itinerary',
       error: err.message
     });
   }
