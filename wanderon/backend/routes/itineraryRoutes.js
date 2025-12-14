@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getAllItineraries,
   getItineraryById,
-  getItinerariesByUser,
+  getItineraryByUser,
   deleteItinerary,
   updateDay,
   createItinerary,
   updateItinerary,
   addDay,
-  deleteDay
+  deleteDay,
+  getAllItinerary
 } = require('../controllers/itineraryController');
 
 // 1. Get All Itineraries
 // GET /api/itineraries
-router.get('/', getAllItineraries);
+router.get('/', getAllItinerary);
 
 // 2. Get Itinerary By ID
 // GET /api/itineraries/:id
@@ -22,7 +22,7 @@ router.get('/:id', getItineraryById);
 
 // 3. Get Itineraries By User
 // GET /api/itineraries/user/:userId
-router.get('/user/:userId', getItinerariesByUser);
+router.get('/user/:userId', getItineraryByUser);
 
 // 4. Create New Itinerary
 // POST /api/itineraries

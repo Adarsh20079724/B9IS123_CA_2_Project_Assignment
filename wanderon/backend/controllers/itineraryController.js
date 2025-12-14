@@ -53,9 +53,9 @@ const getItineraryById = async (req, res) => {
 //===============================================================
 
 //--------------------------------------------------------------
-// 3.                  Get Itineraries by users
+// 3.                  Get Itineraries by user
 //--------------------------------------------------------------
-const getItineraryByUsers = async (req, res) => {
+const getItineraryByUser = async (req, res) => {
     try {
 
     res.status(200).json({
@@ -201,7 +201,7 @@ const deleteDay = async (req, res) => {
 module.exports = {
   getAllItinerary,
   getItineraryById,
-  getItineraryByUsers,
+  getItineraryByUser,
   deleteItinerary,
   updateDay,
   createItinerary,
