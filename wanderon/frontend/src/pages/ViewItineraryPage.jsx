@@ -25,7 +25,7 @@ import {
 import Footer from "../components/layout/Footer";
 import TripDaySummary from "../components/itinerary/TripDaySummary";
 import { useParams } from "react-router-dom";
-import { useItinerary } from "../context/itineraryContext";
+import { useItinerary } from "../context/ItineraryContext";
 
 /**
  * Main Trip Summary page:

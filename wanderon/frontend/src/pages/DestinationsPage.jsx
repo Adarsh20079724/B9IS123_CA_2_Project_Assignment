@@ -16,7 +16,7 @@
 import { FiSearch } from "react-icons/fi";
 import Footer from "../components/layout/Footer";
 import ItineraryCard from "../components/sharedComponents/ItineraryCard";
-import { useItinerary } from "../context/itineraryContext";
+import { useItinerary } from "../context/ItineraryContext";
 import { useEffect, useState } from "react";
 
 const DestinationsPage = () => {
