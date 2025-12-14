@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 //Dev: 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL_DEV || '/api';
+// const API_URL = import.meta.env.VITE_BACKEND_API_URL_DEV || '/api';
 
 //Prod: 
-//const API_URL = import.meta.env.VITE_API_URL || '/api';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL_PROD
 
 const api = axios.create({
   baseURL: API_URL,
