@@ -219,10 +219,65 @@ const CreateTripPage = () => {
 
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Information */}
-            <BasicTripInfoForm 
-              itinerary={itinerary}
+            <div className="card p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
               
-            />
+              <div className="space-y-4">
+                <div>
+                  <label className="label">Trip Title</label>
+                  <input
+                    type="text"
+                    value={itinerary.title}
+                    onChange={(e) => handleFormChanges('title', e.target.value)}
+                    placeholder="e.g., Amazing Europe Adventure"
+                    className="input-field"
+                  />
+                </div>
+
+                <div>
+                  <label className="label">Destination</label>
+                  <input
+                    type="text"
+                    value={itinerary.destination}
+                    onChange={(e) => handleFormChanges('destination', e.target.value)}
+                    placeholder="e.g., Paris, France"
+                    className="input-field"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label">Start Date</label>
+                    <input
+                      type="date"
+                      value={itinerary.startDate?.split('T')[0] || ''}
+                      onChange={(e) => handleFormChanges('startDate', e.target.value)}
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="label">End Date</label>
+                    <input
+                      type="date"
+                      value={itinerary.endDate?.split('T')[0] || ''}
+                      onChange={(e) => handleFormChanges('endDate', e.target.value)}
+                      className="input-field"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label">Summary</label>
+                  <textarea
+                    value={itinerary.summary}
+                    onChange={(e) => handleFormChanges('summary', e.target.value)}
+                    placeholder="Brief description of your trip..."
+                    rows="3"
+                    className="input-field resize-none"
+                  />
+                </div>
+              </div>
+            </div>
 
             {/* Days List */}
             <div className="space-y-4">
