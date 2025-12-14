@@ -8,7 +8,7 @@
 --------------------------------------------------------------*/
 
 const { User } = require('../models');
-const { generateToken } = require('../utils/jwtUtils');
+const { generateToken } = require('../utils/jwsUtils');
 
 // Register New User
 const register = async (req, res) => {
