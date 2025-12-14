@@ -15,15 +15,21 @@ const { Itinerary } = require('../models')
 
 const getAllItinerary = async (req, res) => {
     try {
+    
+    const itineraries = await Itinerary.find()
+      .populate('userId', 'fullName email')
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
+      count: itineraries.length,
+      data: itineraries
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching user itineraries',
+      message: 'Error fetching itineraries',
       error: err.message
     });
   }
@@ -37,14 +43,27 @@ const getAllItinerary = async (req, res) => {
 const getItineraryById = async (req, res) => {
     try {
 
+      const { id } = req.params;
+    
+    const itinerary = await Itinerary.findById(id)
+      .populate('userId', 'fullName email avatar');
+    
+    if (!itinerary) {
+      return res.status(404).json({
+        success: false,
+        message: 'Itinerary not found'
+      });
+    }
+
     res.status(200).json({
       success: true,
+      data: itinerary
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching user itineraries',
+      message: 'Error fetching Itinerary',
       error: err.message
     });
   }
@@ -58,8 +77,15 @@ const getItineraryById = async (req, res) => {
 const getItineraryByUser = async (req, res) => {
     try {
 
+    const { userId } = req.params;
+    
+    const itineraries = await Itinerary.find({ userId })
+      .sort({ createdAt: -1 });
+   
     res.status(200).json({
       success: true,
+      count: itineraries.length,
+      data: itineraries
     });
 
   } catch (err) {
