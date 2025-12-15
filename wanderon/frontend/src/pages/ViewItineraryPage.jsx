@@ -88,19 +88,19 @@ const ViewItineraryPage = () => {
     return days.map((day) => {
       const sections = [];
 
-      // Add transfers
-      if (day.transfers && day.transfers.length > 0) {
-        if (day.transfers.length === 1) {
+      // Add transfer
+      if (day.transfer && day.transfer.length > 0) {
+        if (day.transfer.length === 1) {
           sections.push({
             type: "transfer",
             label: "Transfer:",
-            text: day.transfers[0].description || day.transfers[0].mode,
+            text: day.transfer[0].description || day.transfer[0].mode,
           });
         } else {
           sections.push({
             type: "transfer",
-            label: `${day.transfers.length} Transfers:`,
-            lines: day.transfers.map((t) => t.description || t.mode),
+            label: `${day.transfer.length} Transfers:`,
+            lines: day.transfer.map((t) => t.description || t.mode),
           });
         }
       }
@@ -120,9 +120,9 @@ const ViewItineraryPage = () => {
         });
       }
 
-      // Add hotels
-      if (day.hotels && day.hotels.length > 0) {
-        day.hotels.forEach((hotel) => {
+      // Add accommodation
+      if (day.accommodation && day.accommodation.length > 0) {
+        day.accommodation.forEach((hotel) => {
           sections.push({
             type: "hotel",
             label: "Hotel:",
@@ -157,7 +157,7 @@ const ViewItineraryPage = () => {
       // Add note if no activities
       if (
         sections.length === 0 ||
-        (day.hotels && day.hotels.length > 0 && day.activities.length === 0)
+        (day.accommodation && day.accommodation.length > 0 && day.activities.length === 0)
       ) {
         sections.push({
           type: "note",
@@ -169,8 +169,8 @@ const ViewItineraryPage = () => {
         dayLabel: `Day ${day.dayNumber} – ${day.title}`,
         stats: {
           activities: day.activities?.length || 0,
-          hotels: day.hotels?.length || 0,
-          transfers: day.transfers?.length || 0,
+          accommodation: day.accommodation?.length || 0,
+          transfers: day.transfer?.length || 0,
           flights: day.flights?.length || 0,
         },
         sections,

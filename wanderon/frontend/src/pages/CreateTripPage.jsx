@@ -102,8 +102,8 @@ const CreateTripPage = () => {
       title: `Day ${itinerary.days.length + 1}`,
       date: '',
       // @custom-edit-block: == START ==
-      transfers: [],
-      hotels: [],
+      transfer: [],
+      accommodation: [],
       activities: [],
       flights: [],
       meals: []
@@ -142,8 +142,8 @@ const CreateTripPage = () => {
       title: `${dayToDuplicate.title} (Copy)`,
       // @custom-edit-block: == START ==
       activities: dayToDuplicate.activities ? [...dayToDuplicate.activities] : [],
-      transfers: dayToDuplicate.transfers ? [...dayToDuplicate.transfers] : [],
-      hotels: dayToDuplicate.hotels ? [...dayToDuplicate.hotels] : [],
+      transfer: dayToDuplicate.transfer ? [...dayToDuplicate.transfer] : [],
+      accommodation: dayToDuplicate.accommodation ? [...dayToDuplicate.accommodation] : [],
       flights: dayToDuplicate.flights ? [...dayToDuplicate.flights] : [],
       meals: dayToDuplicate.meals ? [...dayToDuplicate.meals] : []
       // @custom-edit-block: == END ==
@@ -174,8 +174,8 @@ const CreateTripPage = () => {
 
     itinerary.days.forEach(day => {
       totalActivities += day.activities?.length || 0;
-      totalTransfers += day.transfers?.length || 0;
-      totalHotels += day.hotels?.length || 0;
+      totalTransfers += day.transfer?.length || 0;
+      totalHotels += day.accommodation?.length || 0;
       totalFlights += day.flights?.length || 0;
     });
 

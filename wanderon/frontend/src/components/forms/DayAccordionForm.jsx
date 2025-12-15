@@ -43,48 +43,48 @@ const DayAccordionForm = (props) => {
     };
     onUpdate({
       ...day,
-      transfers: [...(day.transfers || []), newTransfer]
+      transfer: [...(day.transfer || []), newTransfer]
     });
   };
 
   const updateTransfer = (transferIndex, field, value) => {
-    const newTransfers = [...(day.transfers || [])];
+    const newTransfers = [...(day.transfer || [])];
     newTransfers[transferIndex] = {
       ...newTransfers[transferIndex],
       [field]: value
     };
-    onUpdate({ ...day, transfers: newTransfers });
+    onUpdate({ ...day, transfer: newTransfers });
   };
 
   const deleteTransfer = (transferIndex) => {
-    const newTransfers = (day.transfers || []).filter((_, index) => index !== transferIndex);
-    onUpdate({ ...day, transfers: newTransfers });
+    const newTransfers = (day.transfer || []).filter((_, index) => index !== transferIndex);
+    onUpdate({ ...day, transfer: newTransfers });
   };
 
-  const addHotel = () => {
-    const newHotel = {
+  const addAccommodation = () => {
+    const newAccommodation = {
       name: '',
       category: 'Standard',
       location: ''
     };
     onUpdate({
       ...day,
-      hotels: [...(day.hotels || []), newHotel]
+      accommodation: [...(day.accommodation || []), newAccommodation]
     });
   };
 
   const updateHotel = (hotelIndex, field, value) => {
-    const newHotels = [...(day.hotels || [])];
-    newHotels[hotelIndex] = {
-      ...newHotels[hotelIndex],
+    const newAccommodations = [...(day.accommodation || [])];
+    newAccommodations[hotelIndex] = {
+      ...newAccommodations[hotelIndex],
       [field]: value
     };
-    onUpdate({ ...day, hotels: newHotels });
+    onUpdate({ ...day, accommodation: newAccommodations });
   };
 
   const deleteHotel = (hotelIndex) => {
-    const newHotels = (day.hotels || []).filter((_, index) => index !== hotelIndex);
-    onUpdate({ ...day, hotels: newHotels });
+    const newAccommodations = (day.accommodation || []).filter((_, index) => index !== hotelIndex);
+    onUpdate({ ...day, accommodation: newAccommodations });
   };
   // @custom-edit-block: == END ==
 
@@ -117,8 +117,8 @@ const DayAccordionForm = (props) => {
 
   // @custom-edit-block: == START ==
   // Updated counts for MongoDB structure
-  const transferCount = day.transfers?.length || 0;
-  const hotelCount = day.hotels?.length || 0;
+  const transferCount = day.transfer?.length || 0;
+  const hotelCount = day.accommodation?.length || 0;
   const activityCount = day.activities?.length || 0;
   // @custom-edit-block: == END ==
 
@@ -250,11 +250,11 @@ const DayAccordionForm = (props) => {
               </button>
             </div>
 
-            {day.transfers?.length === 0 || !day.transfers ? (
+            {day.transfer?.length === 0 || !day.transfer ? (
               <p className="text-gray-500 text-sm">No transfers added yet</p>
             ) : (
               <div className="space-y-3">
-                {day.transfers.map((transfer, transferIndex) => (
+                {day.transfer.map((transfer, transferIndex) => (
                   <div key={transferIndex} className="p-4 bg-white rounded-lg border border-gray-200">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-sm font-medium text-gray-700">Transfer {transferIndex + 1}</span>
@@ -305,7 +305,7 @@ const DayAccordionForm = (props) => {
                           />
                         </div>
                       </div>
-                      <div>
+                      {/* <div>
                         <label className="label text-xs">Description</label>
                         <input
                           type="text"
@@ -314,7 +314,7 @@ const DayAccordionForm = (props) => {
                           placeholder="Transfer details..."
                           className="input-field text-sm"
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))}
@@ -330,7 +330,7 @@ const DayAccordionForm = (props) => {
                 <span>Accommodation</span>
               </h4>
               <button
-                onClick={addHotel}
+                onClick={addAccommodation}
                 className="text-sm btn-primary inline-flex items-center space-x-1"
               >
                 <FiPlus size={14} />
@@ -338,11 +338,11 @@ const DayAccordionForm = (props) => {
               </button>
             </div>
 
-            {day.hotels?.length === 0 || !day.hotels ? (
+            {day.accommodation?.length === 0 || !day.accommodation ? (
               <p className="text-gray-500 text-sm">No hotels added yet</p>
             ) : (
               <div className="space-y-3">
-                {day.hotels.map((hotel, hotelIndex) => (
+                {day.accommodation.map((hotel, hotelIndex) => (
                   <div key={hotelIndex} className="p-4 bg-white rounded-lg border border-gray-200">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-sm font-medium text-gray-700">Hotel {hotelIndex + 1}</span>
@@ -358,8 +358,8 @@ const DayAccordionForm = (props) => {
                         <label className="label text-xs">Hotel Name</label>
                         <input
                           type="text"
-                          value={hotel.name || ''}
-                          onChange={(e) => updateHotel(hotelIndex, 'name', e.target.value)}
+                          value={hotel.hotelName || ''}
+                          onChange={(e) => updateHotel(hotelIndex, 'hotelName', e.target.value)}
                           placeholder="Enter hotel name"
                           className="input-field text-sm"
                         />
@@ -380,7 +380,7 @@ const DayAccordionForm = (props) => {
                             <option value="Luxury">Luxury</option>
                           </select>
                         </div>
-                        <div>
+                        {/* <div>
                           <label className="label text-xs">Location</label>
                           <input
                             type="text"
@@ -389,7 +389,7 @@ const DayAccordionForm = (props) => {
                             placeholder="City/Area"
                             className="input-field text-sm"
                           />
-                        </div>
+                        </div>   */}
                       </div>
                     </div>
                   </div>
