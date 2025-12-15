@@ -21,12 +21,12 @@ const ActivitySchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      default: '',
       trim: true,
     },
     time: {
       type: String, // e.g. '16:00'
-      required: true,
+      default: '',
     },
     description: {
       type: String,
@@ -51,18 +51,10 @@ const TransferSchema = new Schema(
     mode: {
       type: String,
       enum: ['Flight', 'Train', 'Bus', 'Car', 'Ferry', 'Other'],
-      required: true,
+      default: 'Other',
     },
-    from: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    to: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    from: { type: String, default: '', trim: true },
+    to: { type: String, default: '', trim: true },
     departureTime: {
       type: String, // '18:00'
     },
@@ -76,21 +68,10 @@ const TransferSchema = new Schema(
 // Accommodation sub-schema
 const AccommodationSchema = new Schema(
   {
-    hotelName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    category: {
-      type: String, // e.g. 'Deluxe', 'Standard'
-      trim: true,
-    },
-    checkIn: {
-      type: String, // '14:00'
-    },
-    checkOut: {
-      type: String, // '' or '11:00'
-    },
+    hotelName: { type: String, default: '', trim: true },
+    category: { type: String, default: '', trim: true },
+    checkIn: { type: String, default: '', trim: true },
+    checkOut: { type: String, default: '', trim: true },
   },
   { _id: false }
 );
@@ -109,11 +90,17 @@ const DaySchema = new Schema(
       trim: true,
     },
     date: {
-      type: String, // or Date if you prefer strict date type
+      type: String,
       required: true,
     },
-    transfer: TransferSchema,          // optional: can be null / undefined
-    accommodation: AccommodationSchema, // optional
+    transfer: {
+      type: [TransferSchema],
+      default: [],
+    },          
+    accommodation: {
+      type: [AccommodationSchema],
+      default: [],
+    }, // optional
     activities: {
       type: [ActivitySchema],
       default: [],
@@ -139,8 +126,12 @@ const StatisticsSchema = new Schema(
     },
     totalDistance: {
       type: Number,
-      default: 0, // you can store km here
+      default: 0, 
     },
+    totalFlights: {
+      type: Number,
+      default: 0,
+},
   },
   { _id: false }
 );
